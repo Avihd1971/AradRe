@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OITT | Real Estate Investment Landing Page</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --panel: #ffffff;
+      --panel-strong: #ffffff;
+      --text: #1b2a3a;
+      --muted: #5f6f82;
+      --blue: #2d6fd4;
+      --cyan: #4cc7c9;
+      --line: rgba(0,0,0,0.08);
+      --shadow: 0 12px 35px rgba(0,0,0,0.08);
+      --radius: 26px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Heebo", "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg,#f8fbff 0%,#f4f7fb 60%,#eef3f9 100%);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button, input, textarea, select { font: inherit; }
+
+    .container {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    section[id] {
+      scroll-margin-top: 110px;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.9);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 78px;
+      padding: 10px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 14px;
+      object-fit: contain;
+      background: #f0f4fa;
+      padding: 6px;
+      flex-shrink: 0;
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: 1.02rem;
+    }
+
+    .brand-text span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .menu a {
+      padding: 10px 14px;
+      color: var(--muted);
+      border-radius: 999px;
+      transition: 0.25s ease;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .menu a:hover {
+      background: #eef3f9;
+      color: var(--text);
+    }
+
+    .lang-switch {
+      position: absolute;
+      top: 8px;
+      left: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 4px;
+      border-radius: 999px;
+      background: transparent;
+      z-index: 50;
+    }
+
+    .lang-flag {
+      width: 20px;
+      height: 14px;
+      border-radius: 2px;
+      cursor: pointer;
+      opacity: 0.65;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+    }
+
+    .lang-flag:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+
+    .lang-flag.active {
+      opacity: 1;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+    }
+
+    .lang-mobile {
+      display: none;
+      justify-content: center;
+      margin: 10px auto 0;
+    }
+
+    .lang-mobile-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #eef3f9;
+    }
+
+    .lang-mobile-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .lang-mobile-btn.active {
+      background: #ffffff;
+      color: var(--text);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+
+    html.lang-en .lang-switch {
+      left: auto;
+      right: 12px;
+    }
+
+    html.lang-en .lang-switch {
+      left: auto;
+      right: 12px;
+    }
+
+    .lang-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .lang-btn.active {
+      background: #ffffff;
+      color: var(--text);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+      text-align: center;
+    }
+
+    .cta-primary {
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: white;
+      box-shadow: 0 10px 25px rgba(45,111,212,0.25);
+    }
+
+    .cta-secondary {
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: #ffffff;
+    }
+
+    .cta:hover { transform: translateY(-2px); }
+
+    .hero {
+      position: relative;
+      padding: 70px 0 40px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(248,251,255,0.9) 0%, rgba(244,247,251,0.92) 45%, rgba(238,243,249,0.96) 100%),
+        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      opacity: 1;
+      z-index: 0;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -10% -120px -10%;
+      height: 220px;
+      background: radial-gradient(circle at center, rgba(76,199,201,0.16), transparent 60%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0,1.1fr) minmax(320px,0.9fr);
+      gap: 30px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #eef3f9;
+      border: 1px solid var(--line);
+      color: var(--blue);
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.1rem, 6vw, 4rem);
+      line-height: 1.1;
+      margin: 18px 0 18px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg,var(--blue),var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 650px;
+      margin: 0 0 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-card {
+      padding: 28px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-logo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 280px;
+    }
+
+    .hero-logo { width: min(100%, 420px); }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .stat {
+      padding: 16px 14px;
+      border-radius: 18px;
+      background: #f4f7fb;
+      border: 1px solid var(--line);
+      text-align: center;
+      min-width: 0;
+    }
+
+    .stat strong { display:block;font-size:1.2rem; }
+    .stat span { color: var(--muted);font-size:0.85rem; }
+
+    section { padding: 34px 0; }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .section-head h2 { margin:0;font-size: clamp(1.55rem,3vw,2.3rem); }
+    .section-head p { margin:0;color:var(--muted);max-width:660px; }
+
+    .about-grid,
+    .services-grid,
+    .portfolio-grid,
+    .contact-grid,
+    .values-grid { display:grid;gap:18px; }
+
+    .about-grid { grid-template-columns:minmax(0,1.1fr) minmax(0,0.9fr); }
+    .services-grid,
+    .portfolio-grid,
+    .values-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .contact-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+
+    .card {
+      transition: transform 0.35s ease, box-shadow 0.35s ease, opacity 0.6s ease;
+
+      background:white;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:26px;
+      box-shadow:var(--shadow);
+      min-width: 0;
+    }
+
+    .card h3 { margin-top:0;margin-bottom:10px;font-size:1.2rem; }
+    .card p,.card li, .card label { color:var(--muted); }
+
+    .accent-panel {
+      background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+    }
+
+    .list { list-style:none;padding:0;margin:0;display:grid;gap:12px; }
+    .list li { position:relative;padding-inline-start: 18px; }
+
+    .list li::before {
+      content:"";
+      width:8px;height:8px;border-radius:50%;
+      position:absolute;top:11px;inset-inline-start:0;
+      background:linear-gradient(135deg,var(--cyan),var(--blue));
+    }
+
+    .service-icon,.value-icon {
+      width:54px;height:54px;border-radius:14px;
+      display:flex;align-items:center;justify-content:center;
+      margin-bottom:10px;font-size:1.1rem;font-weight:700;
+      background:#eef3f9;border:1px solid var(--line);
+      color: var(--blue);
+      flex-shrink:0;
+    }
+
+    .card-header {
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      margin-bottom:14px;
+      flex-direction:row-reverse;
+    }
+
+    .card-header-title {
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+      flex:1;
+      min-width:0;
+    }
+
+    .card-header-title h3 {
+      margin:2px 0 0;
+      line-height:1.2;
+      text-align:right;
+    }
+
+    .portfolio-card { min-height:220px;display:flex;flex-direction:column;justify-content:space-between; }
+
+    .tag {
+      display:inline-flex;padding:6px 12px;border-radius:999px;
+      background:#eef3f9;color:#34495e;font-size:0.82rem;border:1px solid var(--line);
+      margin-bottom:12px;width:fit-content;
+    }
+
+    .metrics { display:flex;flex-wrap:wrap;gap:10px;margin-top:18px; }
+
+    .metric {
+      padding:10px 14px;border-radius:14px;background:#f4f7fb;
+      border:1px solid var(--line);font-size:0.9rem;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: rgba(45,111,212,0.4);
+      box-shadow: 0 0 0 4px rgba(45,111,212,0.08);
+    }
+
+    .contact-list {
+      list-style: none;
+      margin: 18px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .contact-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .contact-list li:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .contact-list strong {
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .contact-list span,
+    .contact-list a {
+      color: var(--muted);
+      text-align: start;
+      overflow-wrap: anywhere;
+    }
+
+    .hero-card,
+    .card,
+    .section-head,
+    .hero > .container > div,
+    .footer-inner {
+      will-change: transform, opacity;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.10);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+
+    .footer {
+      padding:30px 0 45px;color:var(--muted);
+    }
+
+    .footer-inner {
+      display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+      border-top:1px solid var(--line);padding-top:24px;
+    }
+
+    [data-lang] { display: none; }
+    html.lang-he [data-lang="he"] { display: block; }
+    html.lang-en [data-lang="en"] { display: block; }
+    html.lang-he [data-lang-inline="he"] { display: inline; }
+    html.lang-en [data-lang-inline="en"] { display: inline; }
+    [data-lang-inline] { display: none; }
+
+    @media (max-width: 1100px) {
+      .hero-grid,
+      .about-grid,
+      .services-grid,
+      .portfolio-grid,
+      .values-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 920px) {
+      .nav {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .brand {
+        justify-content: center;
+      }
+
+      .nav-right {
+        justify-content: center;
+      }
+
+      .section-head {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+      .brand {
+        justify-content: center;
+      }
+
+      .nav-right {
+        justify-content: center;
+      }
+
+      .section-head {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .card-header {
+        align-items:flex-start;
+        flex-direction:row-reverse;
+        margin-bottom:12px;
+      }
+
+      .card-header-title {
+        flex:1;
+      }
+
+      .card-header-title h3 {
+        margin:0;
+        text-align:right;
+        line-height:1.15;
+      }
+
+      .service-icon,.value-icon {
+        margin-top:0;
+        margin-bottom:0;
+      }
+
+      .container { width: min(var(--max), calc(100% - 24px)); }
+      .hero { padding: 42px 0 24px; }
+      .hero-actions { flex-direction: column; }
+      .cta { width: 100%; }
+      .stats { grid-template-columns: 1fr; }
+      .contact-list li { flex-direction: column; }
+      .brand-text span { font-size: 0.8rem; }
+      .menu { gap: 4px; }
+      .menu a { padding: 8px 10px; font-size: 0.88rem; }
+      .lang-switch { display: none; }
+      .lang-mobile { display: flex; }
+    }
+      .hero { padding: 42px 0 24px; }
+      .hero-actions { flex-direction: column; }
+      .cta { width: 100%; }
+      .stats { grid-template-columns: 1fr; }
+      .contact-list li { flex-direction: column; }
+      .brand-text span { font-size: 0.8rem; }
+      .menu { gap: 4px; }
+      .menu a { padding: 8px 10px; font-size: 0.88rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="#top" class="brand" aria-label="OITT Home">
+        <img class="brand-logo" src="images/logo200.png" alt="OITT logo" />
+        <div class="brand-text">
+          <strong>OITT</strong>
+          <span data-lang="he">חברת נדל״ן והשקעות</span>
+          <span data-lang="en">Real Estate & Investment Platform</span>
+        </div>
+      </a>
+
+      <div class="lang-switch" aria-label="Language switcher">
+        <img src="https://flagcdn.com/w20/il.png" class="lang-flag active" id="btn-he" alt="Hebrew" title="עברית">
+        <img src="https://flagcdn.com/w20/gb.png" class="lang-flag" id="btn-en" alt="English" title="English">
+      </div>
+
+      <div class="nav-right">
+        <nav class="menu" aria-label="Main navigation">
+          <a href="#about"><span data-lang-inline="he">אודות</span><span data-lang-inline="en">About</span></a>
+          <a href="#strategy"><span data-lang-inline="he">אסטרטגיה</span><span data-lang-inline="en">Strategy</span></a>
+          <a href="#portfolio"><span data-lang-inline="he">מיקוד</span><span data-lang-inline="en">Focus</span></a>
+          <a href="#values"><span data-lang-inline="he">עקרונות</span><span data-lang-inline="en">Values</span></a>
+          <a href="#contact"><span data-lang-inline="he">צור קשר</span><span data-lang-inline="en">Contact</span></a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container lang-mobile">
+      <div class="lang-mobile-switch" aria-label="Mobile language switcher">
+        <button class="lang-mobile-btn active" id="btn-he-mobile" type="button">עברית</button>
+        <button class="lang-mobile-btn" id="btn-en-mobile" type="button">English</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero reveal">
+      <div class="container hero-grid">
+        <div>
+          <div data-lang="he">
+            <h1>פלטפורמת נדל״ן יוקרתית<br /><span>להשקעות, השבחה ויצירת ערך</span></h1>
+            <p>OITT היא פלטפורמת נדל״ן פרטית המתמקדת באיתור, רכישה, ניהול והשבחת נכסים בעלי פוטנציאל גבוה. אנו פועלים בגישה הדומה לקרן השקעות: סינון הזדמנויות קפדני, משמעת פיננסית, ניהול סיכונים מוקפד וחתירה עקבית ליצירת ערך מתמשך עבור שותפים ומשקיעים.</p>
+            <div class="hero-actions">
+              <a class="cta cta-primary" href="#contact">לקביעת פגישת היכרות</a>
+              </div>
+          </div>
+
+          <div data-lang="en">
+            <h1>Luxury Real Estate Platform<br /><span>for Investment, Value Creation and Asset Enhancement</span></h1>
+            <p>OITT is a private real estate platform focused on sourcing, acquiring, managing and enhancing high-potential assets. We operate with an investment-fund mindset: disciplined opportunity screening, financial rigor, careful risk management and a consistent focus on long-term value creation for partners and investors.</p>
+            <div class="hero-actions">
+              <a class="cta cta-primary" href="#contact">Schedule an Intro Meeting</a>
+              <a class="cta cta-secondary" href="#strategy">Review Our Strategy</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card reveal reveal-delay-1">
+          <div class="hero-logo-wrap">
+            <img class="hero-logo" src="images/eden-roof.jpg" alt="OITT" />
+          </div>
+          
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="reveal">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 data-lang="he">פרופיל החברה</h2>
+            <h2 data-lang="en">Company Profile</h2>
+          </div>
+          <p data-lang="he">OITT פועלת כחברת נדל״ן בעלת DNA השקעותי מובהק — שילוב של חשיבה אסטרטגית, בחינת נכסים לעומק, ניהול אקטיבי והשבחה חכמה לאורך מחזור חיי ההשקעה.</p>
+          <p data-lang="en">OITT operates as a real estate platform with a clear investment DNA — combining strategic thinking, deep asset analysis, active management and smart enhancement throughout the investment lifecycle.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="card reveal-delay-1">
+            <h3 data-lang="he">הגישה שלנו</h3>
+            <h3 data-lang="en">Our Approach</h3>
+            <p data-lang="he">אנו מאמינים כי נדל״ן איכותי נבנה על שלושה יסודות: בחירת נכס נכונה, מבנה עסקה מדויק וניהול מקצועי לאחר הרכישה. לכן אנו בוחנים כל הזדמנות דרך פריזמה של מיקום, ביקוש, תזרים, פוטנציאל השבחה וסביבה עסקית עתידית.</p>
+            <p data-lang="en">We believe superior real estate performance is built on three foundations: selecting the right asset, structuring the right deal and managing it professionally after acquisition. Every opportunity is assessed through location quality, demand, cash flow, value-add potential and future market dynamics.</p>
+            <div class="metrics">
+              <div class="metric" data-lang="he">סלקטיביות גבוהה</div>
+              <div class="metric" data-lang="en">High Selectivity</div>
+              <div class="metric" data-lang="he">תכנון פיננסי</div>
+              <div class="metric" data-lang="en">Financial Discipline</div>
+              <div class="metric" data-lang="he">ניהול אקטיבי</div>
+              <div class="metric" data-lang="en">Active Management</div>
+            </div>
+          </div>
+
+          <div class="card accent-panel reveal-delay-2">
+            <h3 data-lang="he">למי זה מתאים</h3>
+            <h3 data-lang="en">Who We Work With</h3>
+            <ul class="list" data-lang="he">
+              <li>משקיעים המחפשים חשיפה לנכסי נדל״ן איכותיים בגישה סולידית וחכמה.</li>
+              <li>בעלי הון המעוניינים בשותף מקצועי לבחינת הזדמנויות וניהולן בפועל.</li>
+              <li>שותפים אסטרטגיים המחפשים גוף ממוקד ביצירת ערך ולא רק ברכישה.</li>
+              <li>בעלי נכסים המעוניינים בהשבחה, ייצוב ושיפור ביצועים תפעוליים.</li>
+            </ul>
+            <ul class="list" data-lang="en">
+              <li>Investors seeking exposure to high-quality real estate through a disciplined and selective approach.</li>
+              <li>Capital partners looking for a professional team to evaluate and manage opportunities.</li>
+              <li>Strategic partners who value long-term value creation, not just acquisition activity.</li>
+              <li>Property owners aiming to enhance, stabilize and improve operational performance.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="strategy" class="reveal">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 data-lang="he">אסטרטגיית ההשקעה</h2>
+            <h2 data-lang="en">Investment Strategy</h2>
+          </div>
+          <p data-lang="he">אנו בונים עסקאות בגישה ממושמעת, עם מיקוד במקסום ערך מתואם-סיכון ולא רק ברכישת נכס.</p>
+          <p data-lang="en">We structure opportunities with discipline, focusing on risk-adjusted value creation rather than acquisition alone.</p>
+        </div>
+
+        <div class="services-grid">
+          <article class="card reveal-delay-1">
+            <div class="card-header">
+              <div class="service-icon">01</div>
+              <div class="card-header-title">
+                <h3 data-lang="he">איתור ובחירה</h3>
+                <h3 data-lang="en">Sourcing & Selection</h3>
+              </div>
+            </div>
+            <p data-lang="he">זיהוי נכסים ומתחמים במיקומים בעלי ביקוש, חסמי כניסה, פוטנציאל שדרוג וסיפור השקעה ברור.</p>
+            <p data-lang="en">Identifying assets and opportunities in demand-driven locations with defensible positioning, upgrade potential and a clear investment story.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="service-icon">02</div>
+              <div class="card-header-title">
+                <h3 data-lang="he">בדיקת עומק</h3>
+                <h3 data-lang="en">Deep Underwriting</h3>
+              </div>
+            </div>
+            <p data-lang="he">ניתוח כלכלי, תפעולי ומשפטי, לצד בחינת שוק, שוכרים, תזרים, סיכונים ותרחישי יציאה.</p>
+            <p data-lang="en">Financial, operational and legal analysis combined with market review, tenant quality, cash flow assessment, risk mapping and exit scenarios.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="service-icon">03</div>
+              <div class="card-header-title">
+                <h3 data-lang="he">השבחה וניהול</h3>
+                <h3 data-lang="en">Enhancement & Management</h3>
+              </div>
+            </div>
+            <p data-lang="he">מימוש תוכנית ערך הכוללת שיפור תפוסה, התאמות נכס, ייעול תפעולי וחיזוק איכות ההכנסה.</p>
+            <p data-lang="en">Executing a value plan that improves occupancy, refines the asset, streamlines operations and strengthens income quality.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio" class="reveal">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 data-lang="he">תחומי מיקוד</h2>
+            <h2 data-lang="en">Investment Focus</h2>
+          </div>
+          <p data-lang="he">אנו מתמקדים בנכסים ובסקטורים שבהם ניתן לייצר שילוב של יציבות, שליטה תפעולית ופוטנציאל עליית ערך.</p>
+          <p data-lang="en">We focus on assets and sectors where stability, operational control and meaningful upside can be combined.</p>
+        </div>
+
+        <div class="portfolio-grid">
+          <article class="card portfolio-card reveal-delay-1">
+            <div>
+              <span class="tag">Core / Core Plus</span>
+              <h3 data-lang="he">נכסים מניבים איכותיים</h3>
+              <h3 data-lang="en">High-Quality Income Assets</h3>
+              <p data-lang="he">בחינת נכסים עם תזרים שוטף, שוכרים יציבים ופוטנציאל לשיפור ביצועים ושדרוג מבנה ההכנסות.</p>
+              <p data-lang="en">Selective review of assets with current income, stable occupiers and room to improve performance and revenue structure.</p>
+            </div>
+            <div class="metrics">
+              <div class="metric" data-lang="he">הכנסה שוטפת</div>
+              <div class="metric" data-lang="en">Current Income</div>
+              <div class="metric" data-lang="he">יציבות יחסית</div>
+              <div class="metric" data-lang="en">Relative Stability</div>
+            </div>
+          </article>
+
+          <article class="card portfolio-card reveal-delay-1">
+            <div>
+              <span class="tag">Value Add</span>
+              <h3 data-lang="he">נכסי השבחה</h3>
+              <h3 data-lang="en">Value-Add Assets</h3>
+              <p data-lang="he">נכסים שבהם ניתן לייצר ערך דרך שיפור תפוסה, התאמה מחודשת, מיתוג מחדש או ניהול יעיל יותר.</p>
+              <p data-lang="en">Assets where value can be created through occupancy improvement, repositioning, rebranding or more efficient management.</p>
+            </div>
+            <div class="metrics">
+              <div class="metric" data-lang="he">פוטנציאל השבחה</div>
+              <div class="metric" data-lang="en">Enhancement Potential</div>
+              <div class="metric" data-lang="he">ניהול אקטיבי</div>
+              <div class="metric" data-lang="en">Active Management</div>
+            </div>
+          </article>
+
+          <article class="card portfolio-card reveal-delay-1">
+            <div>
+              <span class="tag">Opportunistic</span>
+              <h3 data-lang="he">קרקעות ועסקאות מיוחדות</h3>
+              <h3 data-lang="en">Land & Special Situations</h3>
+              <p data-lang="he">בחינת הזדמנויות יזמיות ועסקאות מורכבות שניתן לבנות בהן יתרון באמצעות ידע, סבלנות ומבנה נכון.</p>
+              <p data-lang="en">Entrepreneurial land positions and special situations where edge is built through expertise, patience and thoughtful structuring.</p>
+            </div>
+            <div class="metrics">
+              <div class="metric" data-lang="he">Upside גבוה</div>
+              <div class="metric" data-lang="en">Higher Upside</div>
+              <div class="metric" data-lang="he">תכנון ארוך טווח</div>
+              <div class="metric" data-lang="en">Long-Term Planning</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="values" class="reveal">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 data-lang="he">עקרונות הליבה</h2>
+            <h2 data-lang="en">Core Principles</h2>
+          </div>
+          <p data-lang="he">מה שמבדיל פלטפורמה יוקרתית מגוף נדל״ן רגיל הוא היכולת לקבל החלטות נכון, לבצע באופן מדויק ולדווח בשקיפות מלאה.</p>
+          <p data-lang="en">What differentiates a premium platform from a standard real estate operator is disciplined decision-making, precise execution and transparent reporting.</p>
+        </div>
+
+        <div class="values-grid">
+          <article class="card reveal-delay-1">
+            <div class="card-header">
+              <div class="value-icon">◈</div>
+              <div class="card-header-title">
+                <h3 data-lang="he">משמעת השקעתית</h3>
+                <h3 data-lang="en">Investment Discipline</h3>
+              </div>
+            </div>
+            <p data-lang="he">אנו נכנסים רק לעסקאות שעומדות בסטנדרט ברור של איכות, סיכון סביר ופוטנציאל ערך מובהק.</p>
+            <p data-lang="en">We pursue only opportunities that meet a clear standard of quality, acceptable risk and identifiable value creation potential.</p>
+          </article>
+
+          <article class="card reveal-delay-1">
+            <div class="card-header">
+              <div class="value-icon">◈</div>
+              <div class="card-header-title">
+                <h3 data-lang="he">שקיפות וסטנדרט דיווח</h3>
+                <h3 data-lang="en">Transparency & Reporting</h3>
+              </div>
+            </div>
+            <p data-lang="he">אנו רואים באמון נכס אסטרטגי, ולכן מקפידים על תקשורת מסודרת, בהירה ומקצועית מול שותפים ומשקיעים.</p>
+            <p data-lang="en">We view trust as a strategic asset, which is why we maintain clear, structured and professional communication with partners and investors.</p>
+          </article>
+
+          <article class="card reveal-delay-1">
+            <div class="card-header">
+              <div class="value-icon">◈</div>
+              <div class="card-header-title">
+                <h3 data-lang="he">יצירת ערך מתמשכת</h3>
+                <h3 data-lang="en">Sustained Value Creation</h3>
+              </div>
+            </div>
+            <p data-lang="he">המטרה איננה רק רכישה טובה, אלא בנייה שיטתית של ביצועים, חוסן ופוטנציאל צמיחה לאורך זמן.</p>
+            <p data-lang="en">The goal is not just a good acquisition, but a systematic build-up of performance, resilience and long-term growth potential.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="container">
+        <div class="card accent-panel reveal-delay-1" style="text-align:center;padding:40px 28px;">
+          <h2 style="margin-top:0;" data-lang="he">גישה של קרן השקעות. ביצוע של חברת נדל״ן מנוסה.</h2>
+          <h2 style="margin-top:0;" data-lang="en">Investment-Fund Thinking. Execution by an Experienced Real Estate Platform.</h2>
+          <p style="max-width:800px;margin:0 auto 22px;color:var(--muted);" data-lang="he">OITT מציעה לשותפים ולמשקיעים מסגרת מקצועית לבחינת הזדמנויות, ניהול נכסים והשבחת ערך — תחת חשיבה אסטרטגית, סטנדרט ביצוע גבוה ומחויבות מלאה לתוצאה.</p>
+          <p style="max-width:800px;margin:0 auto 22px;color:var(--muted);" data-lang="en">OITT offers partners and investors a professional framework for reviewing opportunities, managing assets and enhancing value under a strategic mindset, high execution standards and full commitment to outcomes.</p>
+          <a class="cta cta-primary" href="#contact" data-lang="he">לתיאום שיחת היכרות דיסקרטית</a>
+          <a class="cta cta-primary" href="#contact" data-lang="en">Schedule a Discreet Introductory Call</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="reveal">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 data-lang="he">יצירת קשר</h2>
+            <h2 data-lang="en">Contact</h2>
+          </div>
+          <p data-lang="he">נשמח להכיר, לבחון התאמה ולשתף כיצד אנו ניגשים להזדמנויות השקעה, שותפויות וניהול נכסים איכותי.</p>
+          <p data-lang="en">We would be pleased to connect, assess fit and share how we approach investment opportunities, partnerships and premium asset management.</p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="card contact-card reveal-delay-1">
+            <h3 data-lang="he">השאירו פרטים</h3>
+            <h3 data-lang="en">Leave Your Details</h3>
+            <p data-lang="he">פנייה דיסקרטית למשקיעים, שותפים ובעלי נכסים.</p>
+            <p data-lang="en">A discreet channel for investors, partners and property owners.</p>
+
+            <form class="form-grid">
+              <input class="form-control" type="text" placeholder="שם מלא / Full Name" required>
+              <input class="form-control" type="email" placeholder="אימייל / Email" required>
+              <input class="form-control" type="tel" placeholder="טלפון / Phone">
+              <select class="form-control">
+                <option>סוג פנייה / Inquiry Type</option>
+                <option>השקעה / Investment</option>
+                <option>שותפות / Partnership</option>
+                <option>נכס להשבחה / Value-Add Asset</option>
+                <option>פגישה עסקית / Business Meeting</option>
+              </select>
+              <textarea class="form-control" placeholder="ספרו לנו בקצרה על תחום העניין / Tell us briefly about your interest" rows="4" required></textarea>
+              <button type="submit" class="cta cta-primary" style="border:none;cursor:pointer;">
+                <span data-lang-inline="he">שליחת פנייה</span>
+                <span data-lang-inline="en">Submit Inquiry</span>
+              </button>
+            </form>
+          </div>
+
+          <div class="card reveal-delay-2">
+            <h3 data-lang="he">פרטי התקשרות</h3>
+            <h3 data-lang="en">Contact Details</h3>
+            <ul class="contact-list">
+              <li>
+                <strong><span data-lang-inline="he">טלפון</span><span data-lang-inline="en">Phone</span></strong>
+                <a href="tel:+972000000000">+972-00-000-0000</a>
+              </li>
+              <li>
+                <strong><span data-lang-inline="he">אימייל</span><span data-lang-inline="en">Email</span></strong>
+                <a href="mailto:info@oitt.co.il">info@oitt.co.il</a>
+              </li>
+              <li>
+                <strong><span data-lang-inline="he">מיקום פעילות</span><span data-lang-inline="en">Location</span></strong>
+                <span><span data-lang-inline="he">תל אביב | ישראל</span><span data-lang-inline="en">Tel Aviv | Israel</span></span>
+              </li>
+              <li>
+                <strong><span data-lang-inline="he">פגישות</span><span data-lang-inline="en">Meetings</span></strong>
+                <span><span data-lang-inline="he">בתיאום מראש בלבד</span><span data-lang-inline="en">By prior appointment only</span></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span data-lang="he">© 2026 OITT. כל הזכויות שמורות.</span>
+      <span data-lang="en">© 2026 OITT. All rights reserved.</span>
+      <span data-lang="he">חברת נדל״ן | ניהול, השבחה והשקעות</span>
+      <span data-lang="en">Real Estate Platform | Management, Enhancement & Investment</span>
+    </div>
+  </footer>
+
+  <script>
+    const html = document.documentElement;
+    const btnHe = document.getElementById('btn-he');
+    const btnEn = document.getElementById('btn-en');
+    const btnHeMobile = document.getElementById('btn-he-mobile');
+    const btnEnMobile = document.getElementById('btn-en-mobile');
+
+    function updateLangButtons(lang) {
+      btnHe.classList.toggle('active', lang === 'he');
+      btnEn.classList.toggle('active', lang === 'en');
+      btnHeMobile.classList.toggle('active', lang === 'he');
+      btnEnMobile.classList.toggle('active', lang === 'en');
+    }
+
+    function setLanguage(lang) {
+      html.classList.remove('lang-he', 'lang-en');
+      html.classList.add(`lang-${lang}`);
+      html.setAttribute('lang', lang);
+      html.setAttribute('dir', lang === 'he' ? 'rtl' : 'ltr');
+      updateLangButtons(lang);
+      localStorage.setItem('oitt_lang', lang);
+    }
+
+    btnHe.addEventListener('click', () => setLanguage('he'));
+    btnEn.addEventListener('click', () => setLanguage('en'));
+    btnHeMobile.addEventListener('click', () => setLanguage('he'));
+    btnEnMobile.addEventListener('click', () => setLanguage('en'));
+    setLanguage(localStorage.getItem('oitt_lang') || 'he');
+
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href');
+        if (!targetId || targetId === '#') return;
+        const target = document.querySelector(targetId);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', targetId);
+      });
+    });
+
+    const revealItems = document.querySelectorAll('.reveal, .reveal-delay-1, .reveal-delay-2, .reveal-delay-3');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealItems.forEach((item) => observer.observe(item));
+  </script>
+</body>
+</html>

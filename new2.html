@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>OITT Real Estate Investment Platform</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Inter;
+color:#111;
+background:white;
+scroll-behavior:smooth;
+}
+
+header{
+
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:25px 80px;
+background:rgba(255,255,255,0.9);
+backdrop-filter:blur(10px);
+z-index:1000;
+
+}
+
+header img{
+height:44px;
+}
+
+nav a{
+
+margin-left:35px;
+text-decoration:none;
+color:#333;
+font-weight:500;
+
+}
+
+.hero{
+
+position:relative;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:white;
+
+background-image:url("images/pool.jpg");
+background-size:cover;
+background-position:center;
+
+}
+
+.hero::after{
+
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.45);
+
+}
+
+.hero-content{
+
+position:relative;
+z-index:2;
+
+}
+
+.hero h1{
+
+font-family:"Playfair Display";
+font-size:72px;
+max-width:900px;
+
+}
+
+.hero p{
+
+font-size:22px;
+margin-top:20px;
+
+}
+
+.cta{
+
+margin-top:40px;
+
+}
+
+.cta a{
+
+background:#2d6cdf;
+padding:18px 30px;
+color:white;
+text-decoration:none;
+border-radius:6px;
+font-weight:500;
+
+}
+
+.section{
+
+padding:140px 15%;
+max-width:1400px;
+margin:auto;
+
+}
+
+.section h2{
+
+font-family:"Playfair Display";
+font-size:48px;
+margin-bottom:30px;
+
+}
+
+.grid{
+
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:80px;
+align-items:center;
+
+}
+
+.image{
+
+width:100%;
+border-radius:14px;
+
+}
+
+.cards{
+
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+margin-top:40px;
+
+}
+
+.card{
+
+background:#f8f9fc;
+padding:50px;
+border-radius:14px;
+transition:0.3s;
+
+}
+
+.card:hover{
+
+transform:translateY(-10px);
+
+}
+
+.stats{
+
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:40px;
+text-align:center;
+margin-top:60px;
+
+}
+
+.stat h3{
+
+font-size:48px;
+color:#2d6cdf;
+
+}
+
+.gallery{
+
+column-count:3;
+column-gap:25px;
+margin-top:50px;
+
+}
+
+.gallery img{
+
+width:100%;
+margin-bottom:25px;
+border-radius:14px;
+transition:0.4s;
+
+}
+
+.gallery img:hover{
+
+transform:scale(1.04);
+
+}
+
+.map{
+
+margin-top:60px;
+height:450px;
+border-radius:14px;
+overflow:hidden;
+
+}
+
+.investor{
+
+background:#f5f7fa;
+padding:140px 15%;
+
+}
+
+form{
+
+max-width:600px;
+margin:auto;
+display:flex;
+flex-direction:column;
+gap:18px;
+
+}
+
+input,textarea{
+
+padding:16px;
+border:1px solid #ddd;
+border-radius:8px;
+font-size:16px;
+
+}
+
+button{
+
+background:#2d6cdf;
+color:white;
+border:none;
+padding:18px;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+
+}
+
+footer{
+
+text-align:center;
+padding:60px;
+color:#777;
+
+}
+
+.fade{
+
+opacity:0;
+transform:translateY(30px);
+transition:1s;
+
+}
+
+.fade.visible{
+
+opacity:1;
+transform:translateY(0);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<img src="logo.png">
+
+<nav>
+
+<a href="#about">About</a>
+<a href="#strategy">Strategy</a>
+<a href="#projects">Projects</a>
+<a href="#invest">Invest</a>
+
+</nav>
+
+</header>
+
+
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>
+
+Turning Potential Into Reality
+
+</h1>
+
+<p>
+
+Premium Real Estate Investment Platform in Larnaca Cyprus
+
+</p>
+
+<div class="cta">
+
+<a href="#invest">Schedule Investor Meeting</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section class="section fade" id="about">
+
+<div class="grid">
+
+<div>
+
+<h2>About OITT</h2>
+
+<p>
+
+OITT is a real estate investment platform connecting Israeli capital with high-growth residential opportunities in Larnaca Cyprus.
+
+</p>
+
+<p>
+
+Each development is structured through a dedicated SPV allowing investors to participate directly in specific projects.
+
+</p>
+
+<p>
+
+Our multidisciplinary team integrates investment management, architecture, finance and legal structuring.
+
+</p>
+
+</div>
+
+<img src="images/interior.jpg" class="image">
+
+</div>
+
+</section>
+
+
+
+<section class="section fade" id="strategy">
+
+<h2>Investment Strategy</h2>
+
+<div class="cards">
+
+<div class="card">
+
+<h3>Development Flip</h3>
+
+<p>
+
+Acquire land, develop boutique residential buildings and sell completed units.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Rental Income</h3>
+
+<p>
+
+Develop premium apartments designed for long-term rental income.
+
+</p>
+
+<strong>7-10% Target Yield</strong>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section class="section fade">
+
+<h2>Larnaca Opportunity</h2>
+
+<div class="stats">
+
+<div class="stat">
+
+<h3>7-10%</h3>
+<p>Rental Yield</p>
+
+</div>
+
+<div class="stat">
+
+<h3>EU Market</h3>
+<p>Stable Economy</p>
+
+</div>
+
+<div class="stat">
+
+<h3>High Growth</h3>
+<p>Real Estate Demand</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section class="section fade" id="projects">
+
+<h2>Selected Developments</h2>
+
+<div class="gallery">
+
+<img src="images/pool.jpg">
+<img src="images/resort.jpg">
+<img src="images/roof.jpg">
+<img src="images/interior.jpg">
+
+</div>
+
+</section>
+
+
+
+<section class="section fade">
+
+<h2>Strategic Location</h2>
+
+<div class="map">
+
+<iframe
+
+src="https://maps.google.com/maps?q=larnaca&t=&z=12&ie=UTF8&iwloc=&output=embed"
+
+width="100%"
+height="100%"
+frameborder="0">
+
+</iframe>
+
+</div>
+
+</section>
+
+
+
+<section class="investor fade" id="invest">
+
+<h2 style="text-align:center">
+
+Investor Access
+
+</h2>
+
+<p style="text-align:center">
+
+Request the investor presentation and project information.
+
+</p>
+
+<form action="mailto:avi@oitt.co.il" method="post">
+
+<input type="text" placeholder="Full Name">
+
+<input type="email" placeholder="Email">
+
+<input type="text" placeholder="Phone">
+
+<textarea rows="5" placeholder="Message"></textarea>
+
+<button>
+
+Request Investor Deck
+
+</button>
+
+</form>
+
+</section>
+
+
+
+<footer>
+
+OITT – We build your future, stone by stone.
+
+</footer>
+
+
+
+<script>
+
+const faders=document.querySelectorAll('.fade');
+
+window.addEventListener('scroll',()=>{
+
+faders.forEach(el=>{
+
+const top=el.getBoundingClientRect().top;
+
+if(top<window.innerHeight-100){
+
+el.classList.add('visible');
+
+}
+
+});
+
+});
+
+</script>
+
+
+</body>
+</html>

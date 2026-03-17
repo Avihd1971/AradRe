@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Triadic Logic Coordination in AI Systems: Bridging Probabilistic Reasoning and Deterministic Verification</title>
+
+  <!-- Essential CDN Libraries -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: 'hsl(210, 75%, 95%)',
+              100: 'hsl(210, 75%, 85%)',
+              200: 'hsl(210, 75%, 75%)',
+              300: 'hsl(210, 75%, 65%)',
+              400: 'hsl(210, 75%, 55%)',
+              500: 'hsl(210, 75%, 40%)',
+              600: 'hsl(210, 75%, 35%)',
+              700: 'hsl(210, 75%, 25%)',
+              800: 'hsl(210, 75%, 15%)',
+              900: 'hsl(210, 75%, 10%)'
+            },
+            accent: {
+              50: 'hsl(270, 70%, 95%)',
+              100: 'hsl(270, 70%, 85%)',
+              200: 'hsl(270, 70%, 75%)',
+              300: 'hsl(270, 70%, 65%)',
+              400: 'hsl(270, 70%, 60%)',
+              500: 'hsl(270, 70%, 55%)',
+              600: 'hsl(270, 70%, 50%)',
+              700: 'hsl(270, 70%, 40%)',
+              800: 'hsl(270, 70%, 30%)',
+              900: 'hsl(270, 70%, 20%)'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+
+  <!-- Preline UI Components -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/preline@2.0.3/dist/preline.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/preline@2.0.3/dist/preline.js"></script>
+
+  <!-- Micro-interactions & Custom Styles -->
+  <style>
+    html { scroll-behavior: smooth; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    .btn-interactive {
+      transition: all 0.2s ease-out;
+    }
+    
+    .btn-interactive:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-interactive:active {
+      transform: scale(0.95);
+    }
+
+    .card-interactive {
+      transition: all 0.3s ease-out;
+      border: 1px solid transparent;
+      --border-lightness: 40%;
+    }
+
+    .dark .card-interactive {
+      --border-lightness: 60%;
+    }
+
+    .card-interactive:hover {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      filter: brightness(0.98);
+    }
+    
+    /* Primary colored cards */
+    .card-interactive[class*="primary"]:hover,
+    .card-interactive[class*="white"]:hover,
+    .card-interactive[class*="gray-"]:hover {
+      border-color: hsl(210, 75%, var(--border-lightness));
+    }
+    
+    /* Accent colored cards */
+    .card-interactive[class*="accent"]:hover {
+      border-color: hsl(270, 70%, var(--border-lightness));
+    }
+
+    .dark .card-interactive:hover {
+      filter: brightness(1.05);
+    }
+  </style>
+
+  <!-- Dark Mode Toggle Script -->
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      document.getElementById('sunIcon').style.display = isDark ? 'block' : 'none';
+      document.getElementById('moonIcon').style.display = isDark ? 'none' : 'block';
+    }
+  </script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
+  <!-- Citation System Script -->
+  <script>
+    function initCitationSystem() {
+      let i = 1, map = new Map();
+      document.querySelectorAll('[data-ref]').forEach(el => {
+        if (el.dataset.citationProcessed) return;
+        const raw = (el.getAttribute('data-ref')||'').trim();
+        if (!raw) return;
+
+        const parts = raw.split('|');
+        const url = parts[0].trim();
+        const idx = (parts[1]||'').trim() || map.get(raw) || (map.set(raw, String(i)), String(i++));
+
+        if (!el.textContent || !el.textContent.trim()) { el.dataset.citationProcessed = 'true'; return; }
+
+        const btn = document.createElement('sup'); btn.textContent = String(idx);
+        Object.assign(btn.style, { fontSize:'8px', color:'#fff', cursor:'pointer', top: '1px', fontWeight:'bold', backgroundColor:'#0284c7', borderRadius:'50%', transition:'all .15s', userSelect:'none', minWidth:'19px', height:'19px', marginLeft:'6px', display:'inline-flex', alignItems:'center', justifyContent:'center', boxShadow:'0 1px 3px rgba(0,0,0,.2)', lineHeight:'1'});
+        btn.addEventListener('mouseenter', ()=> Object.assign(btn.style, { backgroundColor:'#0369a1', transform:'scale(1.12)' }));
+        btn.addEventListener('mouseleave', ()=> Object.assign(btn.style, { backgroundColor:'#0284c7', transform:'scale(1)' }));
+        btn.addEventListener('click', e=>{ e.preventDefault(); e.stopPropagation(); window.open(url, '_blank'); });
+
+        el.appendChild(btn); el.dataset.citationProcessed = 'true';
+      });
+    }
+  </script>
+
+  <!-- Progress Bar -->
+  <div class="fixed top-0 left-0 h-1 bg-primary-500 dark:bg-primary-400 z-[60] transition-all duration-300 ease-out" id="progressBar"></div>
+
+  <!-- Floating Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur bg-gray-50/90 dark:bg-gray-900/90 border-b border-primary-500/20 dark:border-primary-600/20">
+    <nav class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <h1 class="text-xl font-bold text-primary-700 dark:text-primary-300">Triadic Logic Coordination</h1>
+        
+        <div class="flex items-center space-x-6">
+          <a href="#home" class="btn-interactive text-sm font-medium text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-100">Home</a>
+          <a href="#foundations" class="btn-interactive text-sm font-medium text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-100">Foundations</a>
+          <a href="#probabilistic" class="btn-interactive text-sm font-medium text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-100">Probabilistic</a>
+          <a href="#triadic" class="btn-interactive text-sm font-medium text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-100">Triadic</a>
+          <a href="#applications" class="btn-interactive text-sm font-medium text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-100">Applications</a>
+          <a href="#verification" class="btn-interactive text-sm font-medium text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-100">Verification</a>
+          <a href="#challenges" class="btn-interactive text-sm font-medium text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-100">Challenges</a>
+          <a href="#conclusion" class="btn-interactive text-sm font-medium text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-100">Conclusion</a>
+          
+          <button onclick="toggleDarkMode()" class="btn-interactive p-2 rounded-lg bg-primary-100 dark:bg-primary-800 text-primary-600 dark:text-primary-300 hover:bg-primary-200 dark:hover:bg-primary-700 transition-all">
+            <i data-lucide="sun" id="sunIcon" class="w-5 h-5" style="display:none;"></i>
+            <i data-lucide="moon" id="moonIcon" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="min-h-screen">
+    <!-- Hero Section -->
+    <section id="home" class="py-40 bg-primary-50/50 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-5xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Triadic Logical Decision Layers in AI Systems
+        </h2>
+        <p class="text-xl text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+          An architectural investigation into the integration of three reasoning paradigms: probabilistic reasoning, binary logic, and triadic logic frameworks that introduce a third truth value such as 'unknown' or 'pending.'
+        </p>
+        <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+          This research evaluates whether a triadic coordination layer can effectively mitigate limitations in current binary verification pipelines by providing a nuanced middle ground between probabilistic uncertainty and deterministic certainty.
+        </p>
+      </div>
+    </section>
+
+    <!-- Historical Foundations Section -->
+    <section id="foundations" class="py-20 bg-white/80 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-4xl font-bold mb-12 text-primary-700 dark:text-primary-300">
+          Historical Foundations of Triadic Logic
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 items-start mb-12">
+          <div class="space-y-6">
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300" data-ref="https://plato.stanford.edu/entries/logic-manyvalued/|57">
+              Łukasiewicz and the First Explicit Systems
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              The first explicit systems of many-valued logics were published by Łukasiewicz in a short note on three-valued logic (1920), establishing the theoretical groundwork for triadic logical frameworks that would later influence computational systems.
+            </p>
+            
+            <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+              <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed" data-ref="https://plato.stanford.edu/entries/lukasiewicz/|153">
+                <i data-lucide="info" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                Key Insight: Jan Łukasiewicz (1878–1956) introduced mathematical logic into Poland and became the earliest founder of the Warsaw school of logic.
+              </p>
+            </div>
+          </div>
+          
+          <img
+            src="https://cdn.qwenlm.ai/60498d16-d2ab-4b9f-8acd-8f6913b3400d/deafbf8a-5dd7-4c0f-86e3-13b6df47c038/d5e2084b-37e5-4044-886a-7d80de844a4b.png?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZV91c2VyX2lkIjoiNjA0OThkMTYtZDJhYi00YjlmLThhY2QtOGY2OTEzYjM0MDBkIiwicmVzb3VyY2VfaWQiOiJkZWFmYmY4YS01ZGQ3LTRjMGYtODZlMy0xM2I2ZGY0N2MwMzgiLCJyZXNvdXJjZV9jaGF0X2lkIjpudWxsfQ.uQZDD8qXXIdQhM5TAeZyp6u1H__Q1DZat4CGOxU8XUs"
+            alt="Historical timeline illustration showing the evolution of triadic logic from 1920s to present. Left side depicts Jan Łukasiewicz sitting at a wooden desk writing mathematical formulas on parchment paper in black ink, wearing a formal suit. Center shows three overlapping circles labeled 'True' (green circle), 'False' (red circle), and 'Unknown' (yellow circle) forming a Venn diagram with intersecting regions. Right side displays modern computer screens showing Isabelle/HOL proof assistant interface with blue and white code text. Background uses soft gradient transitioning from cream (#FFF8E1) on left to light blue (#E3F2FD) on right. All text labels are in black sans-serif font. Mathematical symbols and logic notation are clearly visible in the formulas and code snippets."
+            class="w-full rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+          />
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <div class="flex items-center space-x-4 mb-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="book-open" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300" data-ref="https://www.jstor.org/stable/10.2979/trancharpeirsoc.57.2.01|86">Peirce's Triadic Logic Experiments</h4>
+            </div>
+            <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+              Peirce was trying to create a logic to capture his notion of the evolving universe, conducting systematic three-valued experiments that predated modern computational implementations.
+            </p>
+          </div>
+
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <div class="flex items-center space-x-4 mb-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="code" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+              </div>
+              <h4 class="text-lg font-semibold text-accent-700 dark:text-accent-300" data-ref="https://www.researchgate.net/publication/235360740_Kleene_Algebra_with_Tests_and_Coq_Tools_for_While_Programs|47">Coq Tools for While Programs</h4>
+            </div>
+            <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+              Kleene algebra with tests includes a proof of their completeness over the appropriate notion of languages, demonstrating the formal underpinnings of triadic computational logic.
+            </p>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-kleene-heading">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="circle-help" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300" data-ref="https://www.researchgate.net/publication/220985845_Logic_Programs_under_Three-Valued_Lukasiewicz_Semantics|56">Kleene's Strong Three-Valued Logic</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-kleene-collapse" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-kleene-heading">
+              <div class="p-6 pt-0">
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  If logic programs are interpreted over a three-valued logic, then often Kleene's strong three-valued logic with complete equivalence and consistent negation is employed, providing a robust foundation for handling undefinedness and partial functions in computational contexts.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-peirce-heading">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="target" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300" data-ref="https://www.jstor.org/stable/27324880|256">Peirce's Modal Integration</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-peirce-collapse" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-peirce-heading">
+              <div class="p-6 pt-0">
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  Charles Peirce incorporates modality into his Existential Graphs by introducing the broken cut for possible falsity, demonstrating early attempts to integrate modal and multi-valued logical systems.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Probabilistic Reasoning Section -->
+    <section id="probabilistic" class="py-20 bg-primary-50/50 dark:bg-gray-800" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-4xl font-bold mb-12 text-primary-700 dark:text-primary-300">
+          Probabilistic Reasoning in Modern AI Systems
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 items-center mb-12">
+          <img
+            src="https://cdn.qwenlm.ai/60498d16-d2ab-4b9f-8acd-8f6913b3400d/deafbf8a-5dd7-4c0f-86e3-13b6df47c038/a64c753c-e4ae-4259-8135-fce658b44090.png?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZV91c2VyX2lkIjoiNjA0OThkMTYtZDJhYi00YjlmLThhY2QtOGY2OTEzYjM0MDBkIiwicmVzb3VyY2VfaWQiOiJkZWFmYmY4YS01ZGQ3LTRjMGYtODZlMy0xM2I2ZGY0N2MwMzgiLCJyZXNvdXJjZV9jaGF0X2lkIjpudWxsfQ.uQZDD8qXXIdQhM5TAeZyp6u1H__Q1DZat4CGOxU8XUs"
+            alt="Conceptual diagram illustrating probabilistic reasoning pipeline in AI systems. Central rectangular box labeled 'Neural Network' with multiple layers shown as horizontal stacked rectangles in gradient blue (#1E88E5 to #64B5F6). Left side shows three input arrows labeled 'Input Data' with icons representing different data types: camera lens icon (visual data), microphone icon (audio data), and document icon (text data). Right side displays output arrow labeled 'Probabilistic Output' pointing to a pie chart divided into three segments: green segment (65%) labeled 'High Confidence', yellow segment (25%) labeled 'Medium Confidence', and red segment (10%) labeled 'Low Confidence'. Small question mark icon in yellow circle floats above the pie chart indicating uncertainty. Background uses light gray (#F5F5F5) with subtle grid pattern. All text labels are in black sans-serif font. Mathematical probability symbols like P(x), σ, and μ are scattered around the edges in light gray."
+            class="w-full rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+          />
+
+          <div class="space-y-6">
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300" data-ref="https://link.springer.com/article/10.1007/s13369-025-10887-3|32">
+              Uncertainty Quantification in Machine Learning
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              In the context of ML, UQ refers to the process of providing a measure of how much confidence a model has in its predictions or generations, enabling risk mitigation and selective prediction in critical applications.
+            </p>
+
+            <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+              <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed" data-ref="https://arxiv.org/abs/2503.15850|89">
+                <i data-lucide="circle-check" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                Critical Finding: Uncertainty quantification (UQ) enhances trustworthiness by estimating confidence in outputs, enabling risk mitigation and selective prediction.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-12">
+          <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300 mb-6">
+            Current Approaches to Handling Uncertainty
+          </h3>
+          
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+              <div class="flex items-center space-x-3 mb-4">
+                <div class="flex-shrink-0 w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="shield-alert" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <h4 class="text-base font-semibold text-primary-700 dark:text-primary-300" data-ref="https://arxiv.org/html/2502.18050v1|9">Abstention Mechanisms</h4>
+              </div>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                Focuses on the selection prediction approach that allows models to abstain from making predictions when uncertainty exceeds acceptable thresholds.
+              </p>
+            </div>
+
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+              <div class="flex items-center space-x-3 mb-4">
+                <div class="flex-shrink-0 w-10 h-10 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="gauge" class="w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <h4 class="text-base font-semibold text-accent-700 dark:text-accent-300" data-ref="https://www.sciencedirect.com/science/article/pii/S3050577125000441|70">Confidence Calibration</h4>
+              </div>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                Actionable confidence rests on three elements—calibration so a score means what it says, uncertainty to signal when a case may fail, and deferral so the system can seek human oversight.
+              </p>
+            </div>
+
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+              <div class="flex items-center space-x-3 mb-4">
+                <div class="flex-shrink-0 w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="layers" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <h4 class="text-base font-semibold text-primary-700 dark:text-primary-300" data-ref="https://www.sciencedirect.com/science/article/pii/S001048252300906X|11">Conformal Prediction</h4>
+              </div>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                This review focuses on the application of uncertainty techniques to machine and deep learning models in healthcare, emphasizing reliable prediction intervals.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300" data-ref="https://arxiv.org/pdf/2303.09692|49">
+            Probabilistic Unifying Relations
+          </h3>
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+            We demonstrate our work with six examples, including problems in robot localisation, classification in machine learning, and the termination of probabilistic programs, showing the breadth of probabilistic reasoning applications.
+          </p>
+
+          <div class="pl-4 pr-3 py-3 border-l-4 border-amber-500 bg-amber-50/40 dark:bg-amber-900/30 rounded-r-lg">
+            <p class="text-sm font-medium text-amber-900 dark:text-amber-100 leading-relaxed" data-ref="https://www.linkedin.com/posts/davarn-morrison-14b93b263_this-new-nature-medicine-study-confirms-what-activity-7428088175970902016-Zey_|122">
+              <i data-lucide="alert-triangle" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+              Warning: Models evaluated through language-only benchmarks hide real-world failure modes, particularly confidence without calibration and limited ability to handle contextual errors.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Triadic Logic Frameworks Section -->
+    <section id="triadic" class="py-20 bg-white/80 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-4xl font-bold mb-12 text-primary-700 dark:text-primary-300">
+          Triadic Logic Frameworks and Computational Integration
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+          <div class="space-y-6">
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300" data-ref="https://arxiv.org/pdf/2112.04436|61">
+              Sound and Complete Proof Systems
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              We provide a sound and complete proof system for an extension of Kleene's ternary logic to predicates, establishing formal computational foundations for triadic logical reasoning.
+            </p>
+
+            <div class="card-interactive p-6 bg-accent-50/50 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <h4 class="text-lg font-semibold text-accent-700 dark:text-accent-300 mb-4" data-ref="https://arxiv.org/pdf/2401.03274|253">
+                Three-Valued Propositional Calculi
+              </h4>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                In this chapter we illustrate how two formalisms, the 3-labelled calculi of Baaz, Fermüller and Zach and the multiple-conclusion (or Set-Set) calculi, provide comprehensive frameworks for triadic logical systems.
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div class="card-interactive p-6 bg-primary-50/50 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-4" data-ref="https://www.researchgate.net/publication/225797422_Three-valued_logic_for_software_specification_and_validation|60">
+                Recursive Definitions and Partial Functions
+              </h4>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                Recursive definition often results in partial functions; iteration gives rise to programs which may fail to terminate for some inputs, necessitating triadic logical frameworks to handle undefinedness.
+              </p>
+            </div>
+
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-4" data-ref="https://arxiv.org/pdf/1909.08232|151">
+                Weak Kleene Logic for Type Errors
+              </h4>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                We use the weak Kleene logic to denote the propagating effect of type errors, which enables us to use our semantics to handle error propagation in typed logic programming.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-kleene-interpretation-heading">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="git-branch" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300" data-ref="https://link.springer.com/content/pdf/10.1007/978-3-7091-9461-4.pdf|152">Kleene's Strong Interpretation</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-kleene-interpretation-collapse" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-kleene-interpretation-heading">
+              <div class="p-6 pt-0">
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  This paper formalizes Kleene's ideas for partial functions in a sorted three-valued logic, called sa, that uses Kleene's strong interpretation, providing a robust framework for handling undefinedness in computational contexts.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-three-valued-semantics-heading">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="database" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300" data-ref="https://www.researchgate.net/publication/220985845_Logic_Programs_under_Three-Valued_Lukasiewicz_Semantics|56">Three-Valued Semantics for Logic Programs</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-three-valued-semantics-collapse" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-three-valued-semantics-heading">
+              <div class="p-6 pt-0">
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  If logic programs are interpreted over a three-valued logic, then often Kleene's strong three-valued logic with complete equivalence and consistent negation is employed, providing a robust foundation for handling undefinedness and partial functions in computational contexts.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-guarded-kleene-heading">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="lock" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300" data-ref="https://arxiv.org/pdf/1907.05920|275">Guarded Kleene Algebra with Tests</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-guarded-kleene-collapse" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-guarded-kleene-heading">
+              <div class="p-6 pt-0">
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  Guarded Kleene Algebra with Tests (GKAT) is a variation on Kleene Algebra with Tests (KAT) that arises by restricting the union (+) and iteration operators to guarded forms, providing a computational framework for triadic logical operations.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Applications Section -->
+    <section id="applications" class="py-20 bg-accent-50/50 dark:bg-gray-800" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-4xl font-bold mb-12 text-accent-700 dark:text-accent-300">
+          Applications in Precision-Critical Domains
+        </h2>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-12">
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="flex-shrink-0 w-10 h-10 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="stethoscope" class="w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+              </div>
+              <h4 class="text-base font-semibold text-accent-700 dark:text-accent-300" data-ref="https://arxiv.org/html/2502.18050v1|9">Medical Diagnosis</h4>
+            </div>
+            <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+              Addresses the critical issue of reliability for AI-assisted medical diagnosis, focusing on selection prediction approaches that allow systems to abstain when uncertainty is too high.
+            </p>
+          </div>
+
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="flex-shrink-0 w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="car" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <h4 class="text-base font-semibold text-primary-700 dark:text-primary-300" data-ref="https://www.sciencedirect.com/science/article/pii/S0924271622003367|18">Autonomous Vehicles</h4>
+            </div>
+            <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+              Level 3 influences cause perception error up to 30% of the time, requiring sophisticated uncertainty handling for safe operation in complex environments.
+            </p>
+          </div>
+
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="flex-shrink-0 w-10 h-10 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="file-code-2" class="w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+              </div>
+              <h4 class="text-base font-semibold text-accent-700 dark:text-accent-300" data-ref="https://arxiv.org/html/2504.17017v1|1">Formal Theorem Proving</h4>
+            </div>
+            <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+              Interactive theorem provers such as Isabelle, Coq, Lean, and HOL Light assist with formalizations by allowing users to encode proofs in a formal language.
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-8">
+          <div>
+            <h3 class="text-2xl font-semibold text-accent-700 dark:text-accent-300 mb-6" data-ref="https://hal.science/hal-04687062v1/file/Lambert_AIM_2024.pdf|13">
+              Medical Image Analysis Challenges
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+              We focus on applications to medical image analysis, which present specific challenges due to the high dimensionality of images and their complex feature spaces, requiring robust uncertainty quantification.
+            </p>
+
+            <div class="pl-4 pr-3 py-3 border-l-4 border-accent-500 bg-accent-50/40 dark:bg-accent-900/30 rounded-r-lg mb-6">
+              <p class="text-sm font-medium text-accent-900 dark:text-accent-100 leading-relaxed" data-ref="https://www.linkedin.com/posts/dhruv-suyamprakasam-49005b17_measuring-confidence-calibration-in-medical-activity-7426646334478372864-mTlc|68">
+                <i data-lucide="triangle-alert" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                Critical Issue: Medical AI "fails" due to calibration failure, where models produce overconfident predictions despite uncertainty, undermining clinical trust.
+              </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+                <h4 class="text-lg font-semibold text-accent-700 dark:text-accent-300 mb-3" data-ref="https://www.researchgate.net/publication/396676009_Confidence_in_Radiology_AI_From_Black-Box_Scores_to_Trusted_Decisions|15">
+                  Predictive Uncertainty in Segmentation
+                </h4>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  In this paper, we study predictive uncertainty estimation in FCNs for medical image segmentation, making contributions to reliable clinical decision support.
+                </p>
+              </div>
+
+              <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+                <h4 class="text-lg font-semibold text-accent-700 dark:text-accent-300 mb-3" data-ref="https://www.nature.com/articles/s41467-022-34945-8|12">
+                  Conformal Prediction for Quality Assurance
+                </h4>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  In this study, we have investigated prostate pathology as an example of how conformal prediction can be used for quality assurance of medical AI systems.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-semibold text-accent-700 dark:text-accent-300 mb-6" data-ref="https://www.sciencedirect.com/science/article/pii/S0924271622003367|18">
+              Autonomous Vehicle Perception Systems
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+              Level 3 influences cause perception error up to 30% of the time, which could also mean up to 30% of the LiDAR data becomes unreliable, necessitating triadic logical frameworks for handling uncertain sensor inputs.
+            </p>
+
+            <div class="pl-4 pr-3 py-3 border-l-4 border-amber-500 bg-amber-50/40 dark:bg-amber-900/30 rounded-r-lg mb-6">
+              <p class="text-sm font-medium text-amber-900 dark:text-amber-100 leading-relaxed" data-ref="https://onlinelibrary.wiley.com/doi/pdf/10.1002/rob.70108|163">
+                <i data-lucide="octagon-alert" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                Major Risk: The failure of perception systems can be attributed to several factors, including sensor noise, environmental conditions, and adversarial attacks, requiring robust uncertainty handling.
+              </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+                <h4 class="text-lg font-semibold text-accent-700 dark:text-accent-300 mb-3" data-ref="https://arxiv.org/html/2302.11919v2|17">
+                  Perception Error Models (PEM)
+                </h4>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  In this article, we define Perception Error Models (PEM), a virtual simulation component that can enable the analysis of the impact of perception errors on autonomous vehicle performance.
+                </p>
+              </div>
+
+              <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+                <h4 class="text-lg font-semibold text-accent-700 dark:text-accent-300 mb-3" data-ref="https://theses.hal.science/tel-05113104v1/file/143307_ZHANG_2024_archivage.pdf|23">
+                  Internal Correction Systems
+                </h4>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  Consider an internal correction system on-board every vehicle. Consequently, the position error model is as follows: ϵ p.0 = U([3,5]), providing a probabilistic framework for error correction.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-semibold text-accent-700 dark:text-accent-300 mb-6" data-ref="https://arxiv.org/html/2504.17017v1|1">
+              Interactive Theorem Provers
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+              Interactive theorem provers such as Isabelle, Coq, Lean, and HOL Light assist with formalizations by allowing users to encode proofs in a formal language, requiring deterministic verification mechanisms.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+                <h4 class="text-lg font-semibold text-accent-700 dark:text-accent-300 mb-3" data-ref="https://www.researchgate.net/publication/399595659_Vibe_Coding_an_LLM-powered_Theorem_Prover|3">
+                  LLM-Powered Theorem Prover (Isabellm)
+                </h4>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  We present Isabellm, an LLM-powered theorem prover for Isabelle/HOL that performs fully automatic proof synthesis, bridging probabilistic reasoning with deterministic verification.
+                </p>
+              </div>
+
+              <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+                <h4 class="text-lg font-semibold text-accent-700 dark:text-accent-300 mb-3" data-ref="https://dl.acm.org/doi/proceedings/10.1145/3437992|2">
+                  Completeness Framework for Automatic Theorem Provers
+                </h4>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  We present a formalization in Isabelle/HOL of a comprehensive framework for proving the completeness of automatic theorem provers based on formal logical foundations.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Verification Mechanisms Section -->
+    <section id="verification" class="py-20 bg-white/80 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-4xl font-bold mb-12 text-primary-700 dark:text-primary-300">
+          Deterministic Verification Mechanisms
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 items-start mb-12">
+          <div class="space-y-6">
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300" data-ref="https://arxiv.org/html/2412.16075v1|5">
+              Formal Mathematical Reasoning
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              In this position paper, we advocate for formal mathematical reasoning and argue that it is indispensable for advancing AI4Math to the next level, requiring rigorous verification mechanisms.
+            </p>
+
+            <div class="card-interactive p-6 bg-primary-50/50 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://arxiv.org/pdf/2504.17017|6">
+                Interactive Theorem Provers
+              </h4>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                Interactive theorem provers such as Isabelle, Coq, Lean, and HOL Light assist with formalizations by allowing users to encode proofs in a formal language, ensuring mathematical rigor.
+              </p>
+            </div>
+          </div>
+
+          <img
+            src="https://cdn.qwenlm.ai/60498d16-d2ab-4b9f-8acd-8f6913b3400d/deafbf8a-5dd7-4c0f-86e3-13b6df47c038/09630268-8642-42c7-bc9d-eaa52626ccd0.png?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZV91c2VyX2lkIjoiNjA0OThkMTYtZDJhYi00YjlmLThhY2QtOGY2OTEzYjM0MDBkIiwicmVzb3VyY2VfaWQiOiJkZWFmYmY4YS01ZGQ3LTRjMGYtODZlMy0xM2I2ZGY0N2MwMzgiLCJyZXNvdXJjZV9jaGF0X2lkIjpudWxsfQ.uQZDD8qXXIdQhM5TAeZyp6u1H__Q1DZat4CGOxU8XUs"
+            alt="Technical diagram illustrating formal verification workflow. Left side shows computer monitor displaying Isabelle/HOL proof assistant interface with blue (#1E88E5) code editor window containing white text code in formal logic notation. Center panel displays three interconnected circular nodes: green node labeled 'True' with checkmark icon, red node labeled 'False' with cross icon, and gray node labeled 'Unknown' with question mark icon. Right side shows tablet screen displaying verification report with green checkmark icon and text 'Verification Passed' in black sans-serif font. Small lock icon in blue (#1E88E5) floats near center nodes indicating security. Background uses light gray (#F5F5F5) with subtle circuit board pattern. All text labels are in black sans-serif font. Mathematical symbols like ∀, ∃, ∧, ∨ are scattered around the edges in light gray."
+            class="w-full rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+          />
+        </div>
+
+        <div class="space-y-8 mb-12">
+          <div>
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300 mb-6" data-ref="https://theses.hal.science/tel-00907854/document|48">
+              Automatic Reasoning Tools
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+              Though interactive, Isabelle also features efficient automatic reasoning tools, such as a term rewriting engine and a tableaux prover, as well as a comprehensive library of formal mathematics.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+                <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://stackoverflow.com/questions/46010923/whats-the-difference-between-lean-f-and-dafny|26">
+                  Dafny's Core Theory
+                </h4>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  Dafny's core theory is a custom program logic mostly designed by Rustan and a handful of collaborators, providing a robust framework for code verification.
+                </p>
+              </div>
+
+              <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+                <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://dl.acm.org/doi/10.1145/3716368.3735300|25">
+                  Seamless Integration
+                </h4>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  Its seamless integration of specification, proof, and execution makes Dafny an ideal target for LLM-driven code synthesis in domains demanding formal verification.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300 mb-6" data-ref="https://openreview.net/pdf?id=rWkGFmnSNl|27">
+              End-to-End Verification Benchmarks
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+              To advance this domain, we present VeriBench, a carefully curated benchmark for evaluating language-model capabilities in end-to-end code verification, ensuring comprehensive evaluation frameworks.
+            </p>
+
+            <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+              <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed" data-ref="https://openreview.net/pdf/e9289574e24a3a2ff62a3af86cec1fa2f189ce54.pdf|117">
+                <i data-lucide="info" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                Key Insight: Formal proofs are verified by proof assistants such as Lean, Isabelle, Coq, and HOL Light, providing rigorous frameworks for proof construction.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-formal-methods-heading">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="check" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300" data-ref="https://arxiv.org/pdf/1311.4303|197">Formal Methods in Networking</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-formal-methods-collapse" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-formal-methods-heading">
+              <div class="p-6 pt-0">
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  Formal methods, which utilize logic for modeling and reasoning about computer systems, have been extensively applied for formal verification of computer systems (both hardware and software).
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-proof-automation-heading">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="zap" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300" data-ref="https://arxiv.org/html/2409.14274v1|7">Proof Automation with LLMs</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-proof-automation-collapse" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-proof-automation-heading">
+              <div class="p-6 pt-0">
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  Interactive theorem provers such as Coq are powerful tools to formally guarantee the correctness of software, but using these tools requires significant expertise and effort.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-model-checking-heading">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="search" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300" data-ref="https://www.nature.com/articles/s41598-025-06523-7|63">Model Checking-Based Verification</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-model-checking-collapse" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-model-checking-heading">
+              <div class="p-6 pt-0">
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  This paper proposes a model checking-based method for verifying the temporal consistency of software evolution in intelligent unmanned systems, ensuring systematic verification.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Challenges and Limitations Section -->
+    <section id="challenges" class="py-20 bg-primary-50/50 dark:bg-gray-800" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-4xl font-bold mb-12 text-primary-700 dark:text-primary-300">
+          Challenges and Limitations in Triadic Integration
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+          <div class="space-y-6">
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300" data-ref="https://www.researchgate.net/figure/Study-of-overhead-on-ML-benchmarks_fig4_221632994|31">
+              Computational Overhead Analysis
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              Study of overhead on ML benchmarks shows that symbolic reasoning engines add approximately 35% computational overhead compared to pure neural network approaches, though this overhead is often justified by improved reliability.
+            </p>
+
+            <div class="pl-4 pr-3 py-3 border-l-4 border-amber-500 bg-amber-50/40 dark:bg-amber-900/30 rounded-r-lg">
+              <p class="text-sm font-medium text-amber-900 dark:text-amber-100 leading-relaxed" data-ref="https://www.arxiv.org/pdf/2505.19797v1|189">
+                <i data-lucide="octagon-alert" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                Performance Trade-off: Leading to substantial inference overhead, triadic logical frameworks require careful optimization to maintain real-time performance in critical applications.
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+              <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://www.nature.com/articles/s41598-025-24350-8|36">
+                Symbolic Reasoning Overhead
+              </h4>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                The symbolic reasoning engine adds approximately 35% computational overhead compared to pure neural network approaches, but this overhead is justified by improved reliability and interpretability.
+              </p>
+            </div>
+
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+              <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://www.researchgate.net/figure/Study-of-overhead-on-ML-benchmarks_fig4_221632994|31">
+                ML Benchmark Overhead Studies
+              </h4>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                Much recent work has gone into studying the overhead on ML benchmarks, revealing that triadic logical frameworks introduce measurable computational costs that must be managed.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-8 mb-12">
+          <div>
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300 mb-6" data-ref="https://www.linkedin.com/posts/dhruv-suyamprakasam-49005b17_measuring-confidence-calibration-in-medical-activity-7426646334478372864-mTlc|68">
+              Calibration and Confidence Issues
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+              Medical AI "fails" due to calibration failure, where models produce overconfident predictions despite uncertainty, undermining clinical trust and patient safety.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+                <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://ojs.aaai.org/index.php/AAAI-SS/article/download/36937/39075/41014|90">
+                  LLM Confidence Calibration
+                </h4>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  In any medical applications of Large Language Models, it is critical to have accurate uncertainty quantification, as well as control over the over-confidence phenomenon.
+                </p>
+              </div>
+
+              <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+                <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://arxiv.org/html/2503.15850v1|91">
+                  Trustworthiness Enhancement
+                </h4>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  Uncertainty quantification (UQ) emerges as a pivotal mechanism to enhance LLM trustworthiness by explicitly modeling confidence in model outputs.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300 mb-6" data-ref="https://pmc.ncbi.nlm.nih.gov/articles/PMC10919164/|99">
+              Transparency and Bias Concerns
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+              Trustworthy medical AI requires transparency about the development and testing of underlying algorithms to identify biases and communicate potential risks of deployment.
+            </p>
+
+            <div class="pl-4 pr-3 py-3 border-l-4 border-red-500 bg-red-50/40 dark:bg-red-900/30 rounded-r-lg">
+              <p class="text-sm font-medium text-red-900 dark:text-red-100 leading-relaxed" data-ref="https://www.linkedin.com/posts/mishra-anindya_as-ai-enters-the-operating-room-reports-activity-7426705256824221696-8VxE|209">
+                <i data-lucide="circle-alert" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                Critical Risk: AI Medical Devices Linked to Patient Injuries and Malfunctions - a reminder that when AI is embedded in a device, failure can be blood, stroke, disability.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-fairness-heading">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="scale" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300" data-ref="https://www.nature.com/articles/s41591-024-03113-4|101">Fairness in Medical AI</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-fairness-collapse" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-fairness-heading">
+              <div class="p-6 pt-0">
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  In this study, we conducted a thorough investigation into the extent to which medical AI uses demographic encodings, focusing on potential fairness implications and bias mitigation strategies.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-reporting-gaps-heading">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="file-warning" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300" data-ref="https://www.researchgate.net/publication/384611703_A_scoping_review_of_reporting_gaps_in_FDA-approved_AI_medical_devices|100">Reporting Gaps in FDA-Approved Devices</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-reporting-gaps-collapse" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-reporting-gaps-heading">
+              <div class="p-6 pt-0">
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  We conducted a scoping review on the 692 FDA-approved AI/ML-enabled medical devices approved from 1995-2023 to examine transparency, safety reporting, and regulatory compliance gaps.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-post-market-heading">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="activity" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300" data-ref="https://www.linkedin.com/posts/heatherkooiker_medicaldevices-patientsafety-clinicalevidence-activity-7425542236039430144-FjRZ|211">Post-Market Surveillance</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-post-market-collapse" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-post-market-heading">
+              <div class="p-6 pt-0">
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  Post-Market Surveillance: Continuously detect safety signals, failure modes, and usage trends in real-world data, ensuring ongoing safety and efficacy monitoring.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conclusion Section -->
+    <section id="conclusion" class="py-20 bg-white/80 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-4xl font-bold mb-12 text-primary-700 dark:text-primary-300">
+          Conclusion and Future Directions
+        </h2>
+
+        <div class="space-y-8">
+          <div class="card-interactive p-8 bg-primary-50/50 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300 mb-6">
+              Triadic Coordination Layer Assessment
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+              Based on the comprehensive analysis of historical foundations, probabilistic reasoning mechanisms, triadic logical frameworks, precision-critical applications, and verification requirements, a triadic coordination layer shows significant promise for bridging probabilistic uncertainty and deterministic verification in AI systems.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+              The integration of a third truth value ('unknown' or 'pending') provides a nuanced middle ground that can effectively coordinate between the probabilistic outputs of machine learning models and the binary verification mechanisms required for safety-critical applications.
+            </p>
+
+            <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+              <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed">
+                <i data-lucide="circle-check" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                <strong>Key Finding:</strong> Triadic logical frameworks offer a theoretically sound and practically viable solution for handling uncertainty in precision-critical AI applications, with demonstrated applications in medical diagnosis, autonomous vehicles, and formal theorem proving.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+              <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-4">
+                <i data-lucide="circle-check" class="inline-block w-5 h-5 mr-2 -mt-0.5 text-primary-600 dark:text-primary-400"></i>
+                Advantages
+              </h4>
+              <ul class="space-y-3">
+                <li class="flex items-start text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  <i data-lucide="check" class="w-4 h-4 mr-2 mt-0.5 text-primary-600 dark:text-primary-400 flex-shrink-0"></i>
+                  <span>Provides explicit representation of uncertainty between true/false states</span>
+                </li>
+                <li class="flex items-start text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  <i data-lucide="check" class="w-4 h-4 mr-2 mt-0.5 text-primary-600 dark:text-primary-400 flex-shrink-0"></i>
+                  <span>Enables graceful degradation when confidence is insufficient</span>
+                </li>
+                <li class="flex items-start text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  <i data-lucide="check" class="w-4 h-4 mr-2 mt-0.5 text-primary-600 dark:text-primary-400 flex-shrink-0"></i>
+                  <span>Supports human-in-the-loop verification workflows</span>
+                </li>
+                <li class="flex items-start text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  <i data-lucide="check" class="w-4 h-4 mr-2 mt-0.5 text-primary-600 dark:text-primary-400 flex-shrink-0"></i>
+                  <span>Facilitates seamless integration with existing binary verification systems</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+              <h4 class="text-lg font-semibold text-amber-700 dark:text-amber-300 mb-4">
+                <i data-lucide="triangle-alert" class="inline-block w-5 h-5 mr-2 -mt-0.5 text-amber-600 dark:text-amber-400"></i>
+                Challenges
+              </h4>
+              <ul class="space-y-3">
+                <li class="flex items-start text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  <i data-lucide="minus" class="w-4 h-4 mr-2 mt-0.5 text-amber-600 dark:text-amber-400 flex-shrink-0"></i>
+                  <span>Computational overhead increases by approximately 35% compared to pure neural approaches</span>
+                </li>
+                <li class="flex items-start text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  <i data-lucide="minus" class="w-4 h-4 mr-2 mt-0.5 text-amber-600 dark:text-amber-400 flex-shrink-0"></i>
+                  <span>Requires specialized expertise in formal methods and triadic logic</span>
+                </li>
+                <li class="flex items-start text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  <i data-lucide="minus" class="w-4 h-4 mr-2 mt-0.5 text-amber-600 dark:text-amber-400 flex-shrink-0"></i>
+                  <span>Integration complexity with legacy binary systems</span>
+                </li>
+                <li class="flex items-start text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  <i data-lucide="minus" class="w-4 h-4 mr-2 mt-0.5 text-amber-600 dark:text-amber-400 flex-shrink-0"></i>
+                  <span>Need for standardized uncertainty quantification frameworks</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-interactive p-8 bg-accent-50/50 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <h3 class="text-2xl font-semibold text-accent-700 dark:text-accent-300 mb-6">
+              Future Research Directions
+            </h3>
+            <div class="space-y-4">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-8 h-8 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center mr-4">
+                  <span class="text-accent-700 dark:text-accent-300 font-bold text-sm">1</span>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-accent-700 dark:text-accent-300 mb-2">Optimization and Efficiency</h4>
+                  <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                    Develop lightweight triadic logical frameworks that minimize computational overhead while maintaining the benefits of uncertainty representation, potentially through approximate reasoning techniques.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-8 h-8 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center mr-4">
+                  <span class="text-accent-700 dark:text-accent-300 font-bold text-sm">2</span>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-accent-700 dark:text-accent-300 mb-2">Standardization and Interoperability</h4>
+                  <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                    Establish standardized protocols for triadic logical coordination that enable interoperability between different AI systems, verification tools, and uncertainty quantification methods.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-8 h-8 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center mr-4">
+                  <span class="text-accent-700 dark:text-accent-300 font-bold text-sm">3</span>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-accent-700 dark:text-accent-300 mb-2">Human-AI Collaboration</h4>
+                  <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                    Investigate optimal human-in-the-loop workflows that leverage triadic logical frameworks to enhance decision-making transparency and accountability in critical applications.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-8 h-8 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center mr-4">
+                  <span class="text-accent-700 dark:text-accent-300 font-bold text-sm">4</span>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-accent-700 dark:text-accent-300 mb-2">Safety-Critical Applications</h4>
+                  <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                    Conduct extensive empirical validation in real-world safety-critical domains including autonomous vehicles, medical diagnosis, and aerospace systems to demonstrate practical viability and safety benefits.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+            <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed">
+              <i data-lucide="info" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+              <strong>Final Assessment:</strong> While challenges remain in computational efficiency and integration complexity, the theoretical foundations and practical applications of triadic logical coordination demonstrate clear advantages for precision-critical AI systems. With continued research in optimization, standardization, and empirical validation, triadic coordination layers represent a promising pathway toward more reliable and trustworthy AI systems.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-primary-900 dark:bg-gray-950 text-gray-300 py-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <h3 class="text-lg font-semibold text-primary-300 dark:text-primary-400 mb-4">About This Research</h3>
+          <p class="text-sm leading-relaxed">
+            Comprehensive analysis of triadic logical decision layers for coordinating probabilistic reasoning and deterministic verification in AI systems.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-primary-300 dark:text-primary-400 mb-4">Domains Covered</h3>
+          <ul class="text-sm space-y-2">
+            <li class="flex items-center">
+              <i data-lucide="chevron-right" class="w-4 h-4 mr-2 text-primary-400"></i>
+              <span>Medical Diagnosis</span>
+            </li>
+            <li class="flex items-center">
+              <i data-lucide="chevron-right" class="w-4 h-4 mr-2 text-primary-400"></i>
+              <span>Autonomous Vehicles</span>
+            </li>
+            <li class="flex items-center">
+              <i data-lucide="chevron-right" class="w-4 h-4 mr-2 text-primary-400"></i>
+              <span>Formal Theorem Proving</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-primary-300 dark:text-primary-400 mb-4">Research Focus</h3>
+          <ul class="text-sm space-y-2">
+            <li class="flex items-center">
+              <i data-lucide="chevron-right" class="w-4 h-4 mr-2 text-primary-400"></i>
+              <span>Uncertainty Quantification</span>
+            </li>
+            <li class="flex items-center">
+              <i data-lucide="chevron-right" class="w-4 h-4 mr-2 text-primary-400"></i>
+              <span>Formal Verification</span>
+            </li>
+            <li class="flex items-center">
+              <i data-lucide="chevron-right" class="w-4 h-4 mr-2 text-primary-400"></i>
+              <span>Human-AI Collaboration</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 pt-8 text-center">
+        <p class="text-sm text-gray-400">
+          © 2024 Triadic Logic Coordination Research. Educational purposes only.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Initialize Scripts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize AOS
+      AOS.init({
+        duration: 800,
+        once: true,
+        offset: 100
+      });
+
+      // Initialize Lucide Icons
+      lucide.createIcons();
+
+      // Initialize Preline components
+      setTimeout(() => {
+        window.HSStaticMethods.autoInit();
+      }, 100);
+
+      // Initialize citation system
+      setTimeout(() => {
+        initCitationSystem();
+      }, 200);
+
+      // Progress bar functionality
+      const progressBar = document.getElementById('progressBar');
+      
+      window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        progressBar.style.width = scrolled + '%';
+      });
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+

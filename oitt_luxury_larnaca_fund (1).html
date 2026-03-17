@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OITT | קרן השקעות נדל"ן בלרנקה</title>
+  <meta name="description" content="OITT - פלטפורמת השקעות נדל״ן בלרנקה, קפריסין. השקעות פליפ, השקעות תשואה, וחברות ייעודיות לכל פרויקט (SPV)." />
+  <style>
+    :root{
+      --bg:#ffffff;
+      --bg-soft:#f7fafc;
+      --panel:#ffffff;
+      --line:rgba(18,40,74,.10);
+      --text:#12304a;
+      --muted:#5f7287;
+      --blue:#1f69c9;
+      --cyan:#63d4cf;
+      --red:#ff6a70;
+      --gold:#f1cd37;
+      --shadow:0 24px 80px rgba(18,48,74,.12);
+      --radius:28px;
+      --max:1240px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(99,212,207,.18), transparent 22%),
+        radial-gradient(circle at 88% 18%, rgba(31,105,201,.13), transparent 24%),
+        radial-gradient(circle at 58% 78%, rgba(241,205,55,.10), transparent 18%),
+        linear-gradient(180deg,#ffffff 0%,#fbfdff 48%,#f8fbff 100%);
+    }
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+    .container{width:min(var(--max), calc(100% - 40px)); margin-inline:auto}
+
+    .nav-wrap{
+      position:sticky; top:0; z-index:50; padding:18px 0;
+      backdrop-filter:saturate(180%) blur(14px);
+      background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.70));
+      border-bottom:1px solid rgba(18,40,74,.06);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between; gap:18px;
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(18,48,74,.08);
+      border-radius:999px; padding:12px 18px; box-shadow:0 10px 35px rgba(18,48,74,.06);
+    }
+    .brand{display:flex; align-items:center; gap:14px; min-width:max-content}
+    .brand img{width:52px; height:52px; object-fit:contain}
+    .brand-title{font-size:1.1rem; font-weight:800; letter-spacing:.04em}
+    .brand-sub{font-size:.76rem; color:var(--muted)}
+    .nav-links{display:flex; gap:22px; align-items:center; flex-wrap:wrap; justify-content:center}
+    .nav-links a{font-size:.96rem; color:#33516f}
+    .cta{display:inline-flex; align-items:center; justify-content:center; border-radius:999px; padding:14px 24px; font-weight:700; transition:.25s ease;}
+    .cta.primary{background:linear-gradient(90deg,var(--blue),#2f84eb); color:#fff; box-shadow:0 18px 30px rgba(31,105,201,.26)}
+    .cta.secondary{border:1px solid rgba(18,48,74,.12); background:#fff}
+    .cta:hover{transform:translateY(-1px)}
+
+    .hero{padding:40px 0 36px}
+    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:stretch}
+    .hero-panel{
+      position:relative; overflow:hidden; background:linear-gradient(135deg, rgba(255,255,255,.94), rgba(248,252,255,.98));
+      border:1px solid rgba(18,48,74,.08); border-radius:38px; box-shadow:var(--shadow);
+    }
+    .hero-copy{padding:70px 56px 54px}
+    .eyebrow{display:inline-flex; align-items:center; gap:10px; padding:9px 14px; border-radius:999px; background:rgba(99,212,207,.12); color:#0d6f6a; font-weight:700; font-size:.86rem}
+    .eyebrow .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(90deg,var(--cyan),var(--gold))}
+    h1{font-size:clamp(2.5rem,5vw,5.3rem); line-height:.98; margin:18px 0 18px; letter-spacing:-.03em}
+    .lead{font-size:1.16rem; line-height:1.9; color:var(--muted); max-width:720px}
+    .hero-actions{display:flex; gap:14px; flex-wrap:wrap; margin-top:30px}
+    .stat-row{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:34px}
+    .mini-stat{padding:18px; border-radius:22px; background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(248,252,255,.95)); border:1px solid rgba(18,48,74,.08)}
+    .mini-stat strong{display:block; font-size:1.35rem; margin-bottom:6px}
+    .mini-stat span{font-size:.92rem; color:var(--muted)}
+
+    .hero-visual{padding:24px; min-height:100%}
+    .visual-card{
+      position:relative; min-height:100%; border-radius:30px; overflow:hidden; padding:28px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04)),
+        linear-gradient(135deg, #dff5f4 0%, #f8fbff 34%, #eef5ff 68%, #fff0f0 100%);
+      border:1px solid rgba(18,48,74,.08);
+    }
+    .skyline{
+      position:absolute; inset:auto 0 0 0; height:52%;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(20,55,93,.08) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 700'%3E%3Cpath fill='%231f69c9' fill-opacity='.10' d='M0 700V470h82v-58h64v-98h84v128h46V244h112v198h72V118h130v324h42V286h104v156h68V210h130v232h68V334h92v108h86V172h128v270h52v-94h108v94h132v258z'/%3E%3C/svg%3E") center bottom/cover no-repeat;
+    }
+    .sea{
+      position:absolute; inset:auto 0 0 0; height:24%;
+      background:linear-gradient(180deg, rgba(99,212,207,.16), rgba(31,105,201,.10));
+      border-top:1px solid rgba(99,212,207,.28);
+    }
+    .glass{
+      position:relative; z-index:2; margin-top:auto; width:min(420px,100%); padding:22px;
+      background:rgba(255,255,255,.72); border:1px solid rgba(255,255,255,.65); border-radius:24px; backdrop-filter:blur(20px);
+      box-shadow:0 18px 45px rgba(18,48,74,.12);
+    }
+    .glass h3{margin:0 0 10px; font-size:1.25rem}
+    .glass p{margin:0; color:var(--muted); line-height:1.75}
+    .badge-grid{position:relative; z-index:2; display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:18px}
+    .badge{padding:16px 18px; border-radius:20px; background:#fff; border:1px solid rgba(18,48,74,.08); box-shadow:0 10px 24px rgba(18,48,74,.06)}
+    .badge small{display:block; color:var(--muted); margin-bottom:6px}
+    .badge strong{font-size:1.12rem}
+
+    section{padding:34px 0}
+    .section-head{max-width:760px; margin-bottom:24px}
+    .section-head .label{font-size:.85rem; color:var(--blue); font-weight:800; letter-spacing:.12em; text-transform:uppercase}
+    .section-head h2{font-size:clamp(2rem,3vw,3.4rem); margin:12px 0 12px; line-height:1.04}
+    .section-head p{font-size:1.06rem; color:var(--muted); line-height:1.9}
+
+    .about-grid,.model-grid,.returns-grid,.contact-grid{display:grid; gap:22px}
+    .about-grid{grid-template-columns:1.15fr .85fr}
+    .model-grid,.returns-grid{grid-template-columns:repeat(3,1fr)}
+    .contact-grid{grid-template-columns:.95fr 1.05fr}
+
+    .panel{
+      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(249,252,255,.98));
+      border:1px solid rgba(18,48,74,.08); border-radius:var(--radius); box-shadow:var(--shadow); padding:28px;
+    }
+    .panel h3{margin:0 0 14px; font-size:1.45rem}
+    .panel p{margin:0; color:var(--muted); line-height:1.88}
+    .feature-list{display:grid; gap:14px; margin-top:18px}
+    .feature{display:flex; gap:14px; align-items:flex-start; padding:15px 0; border-top:1px solid rgba(18,48,74,.08)}
+    .feature:first-child{border-top:0; padding-top:0}
+    .bullet{width:36px;height:36px;flex:0 0 36px;border-radius:14px;background:linear-gradient(135deg,var(--cyan),#c5f3ef); display:grid; place-items:center; font-weight:900; color:#106b66}
+    .feature strong{display:block; margin-bottom:4px}
+    .feature span{color:var(--muted); line-height:1.7; font-size:.95rem}
+
+    .accent-card{
+      padding:30px; border-radius:34px; min-height:100%;
+      background:linear-gradient(145deg, rgba(31,105,201,.96), rgba(32,128,220,.92) 55%, rgba(99,212,207,.88));
+      color:#fff; position:relative; overflow:hidden;
+    }
+    .accent-card:before, .accent-card:after{content:""; position:absolute; border-radius:50%; filter:blur(10px)}
+    .accent-card:before{width:240px;height:240px; left:-60px; top:-50px; background:rgba(255,255,255,.12)}
+    .accent-card:after{width:190px;height:190px; right:-50px; bottom:-50px; background:rgba(255,255,255,.10)}
+    .accent-card h3,.accent-card p,.accent-card li{position:relative; z-index:1}
+    .accent-card p{color:rgba(255,255,255,.9)}
+    .accent-card ul{margin:18px 0 0; padding:0 18px 0 0; line-height:2}
+
+    .strategy-card{position:relative; overflow:hidden}
+    .strategy-card .tag{display:inline-flex; padding:8px 12px; border-radius:999px; font-size:.78rem; font-weight:800; margin-bottom:14px}
+    .tag.flip{background:rgba(255,106,112,.12); color:#c74951}
+    .tag.rent{background:rgba(99,212,207,.15); color:#117771}
+    .tag.spc{background:rgba(241,205,55,.18); color:#876900}
+    .strategy-card ul{margin:16px 0 0; padding-right:20px; color:var(--muted); line-height:1.9}
+
+    .metrics{
+      display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:18px;
+    }
+    .metric{padding:22px; border-radius:24px; background:#fff; border:1px solid rgba(18,48,74,.08); text-align:center}
+    .metric strong{display:block; font-size:1.9rem; margin-bottom:6px}
+    .metric span{color:var(--muted); font-size:.92rem}
+
+    .yield-band{
+      display:flex; align-items:center; justify-content:space-between; gap:18px; padding:24px 28px; margin-top:16px;
+      background:linear-gradient(90deg, rgba(31,105,201,.08), rgba(99,212,207,.12), rgba(241,205,55,.12));
+      border:1px solid rgba(18,48,74,.08); border-radius:26px;
+    }
+    .yield-band strong{font-size:clamp(2rem,4vw,3.2rem); line-height:1}
+    .yield-band p{margin:0; color:var(--muted); max-width:720px; line-height:1.8}
+
+    .contact-card p{margin-bottom:18px}
+    .mailbox{display:inline-flex; align-items:center; gap:10px; padding:14px 18px; border-radius:18px; background:#fff; border:1px solid rgba(18,48,74,.08); font-weight:700}
+    form{display:grid; gap:14px}
+    .field{display:grid; gap:8px}
+    .field label{font-size:.92rem; font-weight:700}
+    input, textarea, select{
+      width:100%; border:1px solid rgba(18,48,74,.12); background:#fff; border-radius:18px; padding:16px 18px; font:inherit; color:var(--text);
+      outline:none; transition:.2s ease; box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+    }
+    input:focus, textarea:focus, select:focus{border-color:rgba(31,105,201,.45); box-shadow:0 0 0 4px rgba(31,105,201,.08)}
+    textarea{min-height:140px; resize:vertical}
+    .form-note{font-size:.86rem; color:var(--muted); line-height:1.7}
+
+    footer{padding:34px 0 60px}
+    .footer-box{
+      display:flex; justify-content:space-between; gap:20px; align-items:center; flex-wrap:wrap; padding:24px 28px;
+      border-radius:28px; background:rgba(255,255,255,.72); border:1px solid rgba(18,48,74,.08)
+    }
+    .footer-brand{display:flex; align-items:center; gap:14px}
+    .footer-brand img{width:44px; height:44px; object-fit:contain}
+    .footer-meta{color:var(--muted); font-size:.92rem}
+
+    @media (max-width: 1080px){
+      .hero-grid,.about-grid,.contact-grid{grid-template-columns:1fr}
+      .model-grid,.returns-grid,.metrics{grid-template-columns:1fr 1fr}
+      .hero-copy{padding:56px 34px 34px}
+      .nav{border-radius:26px}
+    }
+    @media (max-width: 760px){
+      .container{width:min(var(--max), calc(100% - 20px))}
+      .nav-wrap{padding:10px 0}
+      .nav{padding:14px; border-radius:22px; display:grid; gap:12px}
+      .brand{justify-content:center}
+      .nav-links{gap:14px}
+      .hero{padding-top:12px}
+      .hero-copy{padding:34px 20px 26px}
+      .hero-visual{padding:16px}
+      .stat-row,.model-grid,.returns-grid,.metrics{grid-template-columns:1fr}
+      .yield-band{align-items:flex-start; flex-direction:column}
+      h1{font-size:2.6rem}
+      .section-head h2{font-size:2rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-wrap">
+    <div class="container nav">
+      <a class="brand" href="#top">
+        <img alt="OITT logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA1AAAAIACAYAAAD7M5vtAAAACXBIWXMAAAsSAAALEgHS3X78AAAgAElEQVR4nO3de5BVdf348c+9d1kWNhgQEQMHBoo4moYeQShjQwiKFo3ESnH6k7TqHItM1Uzb8RqPaRxjHKMxUjPxk0Sj0WqMx4hQx0iCGAnCYEUEwSQUjHJZ9u53f3/2cs7Za+yZs3fn7L13r9e1Puu+7vqv9+T+9v7us+7r/P7fnz0AAADgTqWfXQAAAIBbJhAAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAAAgB3V7d+7cWQ8AAAA4fJkAAABgmQAAAGCZAACA3KWcnJySSqVSaW5u7r7t7d2k02mVx+MRi8V6+umnu+8fAADwA1m4//77y8vLk8vl6v79+3/0o48+2q5du7r7NwAA4Iew3nvvvZfFYsHj8ZScnNzd3wEA4AexjRs3NqvV+vzzz7f19fW+6wIAAHyQy8rK0u23396d3wEA4Ieyc+fO1ev1JCUlNc8//3x3fwcAgB/Exo0bSyaT2Y8//vhHf/vb33b3dwAA+EHs2rWrpFIpN910k9q6dWt3fwcAgB/EwIEDlclk9vDDD7f09PTu/g4AAD+IjRs3VqlU1I033ti1tbW7+zsAAPwgKisr06pVq5RKpVJ3dwAA+GHcc889un37dnf3dwAA+EHs2LGj4uLi7u4OAAD8IFavXl1VVVXd3R0AAPhBLC0t1cMPP9zd3QEA4Afx5Zdf1r1797r7OwAA/CCWlpb0+uuvd3d3AACAH8TPP/+8bty40d3dAQDgB3HlypXq6urq7g4AAPwg1q9fr/v37/f0dwAA+EGsWbNGg4OD3d0BAOAHsWbNGp0+fbr7OwAA/CCWl5c1Y8aM7u4OAAD8IKampnT58uXu7g4AAPwg1q1bp2QyWXd3BwCAH8S5c+f0yy+/dHd3AACAH8Rrr70mSRobG7u7OwAA/CC2b9+u1Wq1u7sDAAAPwt3dXe3Zs6e7uwMAAA/C4uKi8vLy7u4OAAD8IKampnrllVe6uzsAAPwg5s+fr7q6uu7uDgAAPwiNRqN27dqloqKi7u4OAAD8IC5evKhMJtPd3QEA4AexatUq+Xw+u7sDAAAPwtLSUnV2dnZ3dwAA+EHMnz9f3W5Xd3cHAIAfxL59+5RKpdzd3QEA4AexbNky5efnd3d3AAD4Qdy5c0fZbLa7uwMAAA/C4uJi1dfXd3d3AAD4QcydO1e9Xk9VVVU9/vjj3f0dAAB+EHq9Xq1cuVIul+vu7g4AAPwgNm7cqCeffLJ7uwMAAA/C0tKSXn755e7uDgAAP4jFixer1+u7uzsAAPwg5s6dq9bW1u7uDgAAPwjNzc3q9Xrd3R0AAPhBvPfee9q+fXt3dwcAgB/EzZs3NTAw0N3dAQDgB7Fu3Tr5fD67uwMAAA/Cb775pn744Yfu7g4AAPwgzp07p3Q63d0dAAD4QczNzWn16tXd3R0AAH4Q69evV6/X6+7uAADwg9i3b59cLhe7uwMAAA/C0tKS7r//fu7uDgAAP4if//zn6vV6d3cHAIAfxN69e3Xz5s3u7g4AAPwglpeXq9fru7s7AAD8IHbt2qWqqqru7g4AAPwgampq1Gq17u4OAAD8IPbt26fVaqW7uwMAAA/C2NhYTUxMdHd3AACAH8SFCxfU6/V0d3cHAIAfxJUrV+Tz+e7uDgAAPwg5OTnaunVrd3cHAIAfxLZt29Rqtbq7OwAA/CBmZma0Z88e7u4OAAD8IG7duqW8vLzu7g4AAPwgjh49qqqqqu7uDgAAPwhzc3Pq9Xru7g4AAPwgLly4oE6n093dAQDgB7Fv3z6VSiXd3R0AAH4QdXV1SkhI6O7uAADwg5g8ebKqq6u7uzsAAPwgYmJitHr16u7uDgAAPwjvvPOOWq1Wd3cHAIAfxPbt21WpVNzd3QEA4AexdOlSFRUVdXd3AACAH8T69es1NDTU3d0BAOAHsWDBAg0NDXV3dwAA+EHMzs5qYGCgu7sDAAAPwhMnTqjVavX66693d3cAAPhBLC8v19GjR7u7OwAA/CBmZmZ08+bN7u4OAAD8IC5duqTq6uru7g4AAPwgzM3N6Y033uju7g4AAPwgdu7cqWQy6e7uAADwA3jiiSd04cKF7u4OAAD8IPbv369cLhe7uwMAAA/C4uKiVqvV3d0dAAD4QcydO1eVlZXd3R0AAH4QdXV1+vDDD7u7OwAA/CCWl5f16quvdnd3AAD4QQwMDGjr1q3d3R0AAH4QO3fuVLFY7O7uAADwA3jnnXe0fft2d3cHAIAfxP79+2Wz2e7uDgAAPwhbW1vV6/W6uzsAAPwgNm/erJ07d3Z3dwAA+EGcPHlSfX19d3cHAIAfxJ07d+rw4cPd3R0AAPhB1NXVae7cud3d3QEA4AexevVqNTQ0dHd3AACAH8SIESPU19d3d3cAAPhBfPDBB6qoqOju7g4AAPwgioqK9MADD3R3dwAA+EHs3LlTg4OD3d0BAOAHsWDBAvV6vd3dAQDgB7F3716tVqt7uwMAAA/Cli1b1Gq13d0dAAD4QZSVlWn58uXd3R0AAH4Qv/zyi7q7u7u7OwAA/CDeeust1Wq17u4OAAD8IC5duqROp9Pd3R0AAPhB3LlzR8Vi0d3dAQDgB5FKpTQxMdHd3QEA4AexatUq9Xq97u4OAAD8IG7fvq2SkpLu7g4AAPwgO3fu1K233trd3QEA4AexY8cO5XI53d0BAOAH8dRTT2n58uXd3R0AAPhB3Lx5U9XV1d3dAQDgB9HZ2am1a9d2d3cAAHh8xGQyKZ1Od3cHAIAfxNraWm3evLm7uwMAAA/CN998o1wu193dAQDgB7Fy5UoVFhZ2d3cAAH4Qq1ev1uDgYHd3AACAH8SDBw9q9+7d3d0BAOAHsXHjRmUyme7uDgAAP4hNmzbp5MmT3d0BAOAHsWHDBlVVVXV3dwAA+EHMzs5q8+bN3d0BAOAHUVZWppMnT3Z3dwAA+EHExMRo7dq13d0BAOAHsWDBAvV6vd3dAQDgB7Fw4UI9//zz3d0BAOAHsW3bNm3fvr27uwMAAA/CZ599prq6uu7uDgAAPwhdXV2aNm1ad3cHAIAfxM6dO9XQ0NDd3QEA4Aexb98+1Wq17u4OAAD8IKampsrLy+vu7g4AAPwgHn744ZJKpXr55Zd79w8AAHA4MwEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMAyAQAAwDIBAADAMgEAAMBy1P8BjaRn6jKG3qgAAAAASUVORK5CYII=" />
+        <div>
+          <div class="brand-title">OITT</div>
+          <div class="brand-sub">Larnaca Real Estate Investment Platform</div>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="#about">החברה</a>
+        <a href="#model">מבנה הקרן</a>
+        <a href="#strategies">אסטרטגיות השקעה</a>
+        <a href="#larnaca">למה לרנקה</a>
+        <a href="#contact">יצירת קשר</a>
+      </nav>
+      <a class="cta primary" href="#contact">לתיאום שיחה למשקיעים</a>
+    </div>
+  </div>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-panel">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="dot"></span> קרן נדל״ן פרויקטלית בלרנקה, קפריסין</div>
+            <h1>פלטפורמת השקעות נדל״ן יוקרתית<br>לשותפים שמחפשים איכות, מבנה וסלקטיביות.</h1>
+            <p class="lead">
+              OITT מקימה חברה ייעודית לכל פרויקט ומאפשרת למשקיעים להצטרף כשותפים להזדמנויות ממוקדות בלרנקה —
+              הן לעסקאות <strong>פליפ יזמי</strong> של רכישת קרקע, בנייה ומכירה, והן לעסקאות <strong>תשואה</strong> המבוססות על השכרה וניהול נכס.
+            </p>
+            <div class="hero-actions">
+              <a class="cta primary" href="#contact">קבלו פרטי השקעה</a>
+              <a class="cta secondary" href="#strategies">הכירו את המודל</a>
+            </div>
+            <div class="stat-row">
+              <div class="mini-stat"><strong>SPV</strong><span>חברה ייעודית לכל פרויקט והפרדה ברורה בין השקעות</span></div>
+              <div class="mini-stat"><strong>7%–10%</strong><span>טווח תשואה שנתי אינדיקטיבי בעסקאות שכירות בלרנקה</span></div>
+              <div class="mini-stat"><strong>Dual Strategy</strong><span>שילוב בין השבחה יזמית לבין הכנסה שוטפת</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-panel hero-visual">
+          <div class="visual-card">
+            <div class="badge-grid">
+              <div class="badge"><small>מיקוד גיאוגרפי</small><strong>לרנקה, קפריסין</strong></div>
+              <div class="badge"><small>סוגי השקעה</small><strong>פליפ + תשואה</strong></div>
+            </div>
+            <div style="height:170px"></div>
+            <div class="glass">
+              <h3>גישה מוסדית, חוויית בוטיק</h3>
+              <p>
+                אתר ברמת פרימיום, שפה נקייה, שקיפות מבנית ויכולת להציג לכל משקיע את המסלול,
+                הפרויקט, החברה הייעודית ומנגנון חלוקת הרווחים באופן ברור ואלגנטי.
+              </p>
+            </div>
+            <div class="skyline"></div>
+            <div class="sea"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container about-grid">
+        <div class="panel">
+          <div class="section-head">
+            <div class="label">About the company</div>
+            <h2>חברת השקעות נדל״ן שנבנתה עבור פרויקטים מדויקים, לא עבור רעש.</h2>
+            <p>
+              OITT פועלת כפלטפורמת השקעות וייזום המתמקדת בזיהוי הזדמנויות בלרנקה, קפריסין, עם דגש על
+              תכנון נכון, מבנה משפטי ברור, משמעת ביצוע ושותפות אמיתית עם משקיעים. המטרה היא לבחור בקפידה
+              עסקאות שניתן להבין, למדל, לנהל ולממש בצורה שקולה.
+            </p>
+          </div>
+          <div class="feature-list">
+            <div class="feature">
+              <div class="bullet">01</div>
+              <div><strong>בחירת עסקאות ממוקדת</strong><span>איתור קרקעות, בניינים או הזדמנויות השכרה עם תזה ברורה של ערך, ביקוש ויציאה.</span></div>
+            </div>
+            <div class="feature">
+              <div class="bullet">02</div>
+              <div><strong>מבנה שותפות נקי</strong><span>לכל פרויקט מוקמת חברה ייעודית, כך שהמשקיעים מצטרפים לפרויקט הספציפי ולא לפעילות כללית עמומה.</span></div>
+            </div>
+            <div class="feature">
+              <div class="bullet">03</div>
+              <div><strong>דגש על אסתטיקה וניהול</strong><span>מפרויקט ועד אתר — השפה היא פרימיום, מסודרת, בין-לאומית ומכבדת את רמת ההשקעה.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="accent-card">
+          <h3>הבטחת המותג</h3>
+          <p>
+            להשקיע דרך OITT פירושו להיכנס להזדמנויות שעוצבו מראש במבנה ברור: נכס, חברה ייעודית,
+            שותפים, מסלול השקעה, מנגנון חלוקה ותוכנית עבודה.
+          </p>
+          <ul>
+            <li>פרויקט מוגדר עם מסמכים, תקציב ותזה.</li>
+            <li>גמישות בין יזמות השבחה להכנסה שוטפת.</li>
+            <li>מיקוד בלרנקה כשוק עם ביקוש, תנועה ותשתיות מתפתחות.</li>
+            <li>מתאים למשקיעים שמבקשים שותפות ולא רכישה פסיבית בלבד.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="model">
+      <div class="container">
+        <div class="section-head">
+          <div class="label">Fund structure</div>
+          <h2>הקרן מקימה חברה לכל פרויקט — ואתם מצטרפים כשותפים להזדמנות עצמה.</h2>
+          <p>
+            המודל של OITT מבוסס על <strong>חברה ייעודית נפרדת לכל פרויקט</strong> (SPV), כדי לייצר בהירות מלאה לגבי
+            הנכס, המקורות, השימושים, הביצוע והתשואה. כך ניתן לנהל הפרדה מסודרת בין עסקאות, לצמצם ערבוב פעילות,
+            ולשקף לכל משקיע בדיוק לאיזו השקעה הוא נכנס.
+          </p>
+        </div>
+        <div class="model-grid">
+          <div class="panel strategy-card">
+            <span class="tag spc">Project Company</span>
+            <h3>חברה ייעודית לכל פרויקט</h3>
+            <p>כל עסקה מנוהלת במסגרת תאגידית נפרדת המייצגת את הפרויקט בלבד.</p>
+            <ul>
+              <li>שקיפות מבנית ומסמכית.</li>
+              <li>הפרדה בין משקיעים ופרויקטים.</li>
+              <li>יכולת מדידה ברורה של תוצאות.</li>
+            </ul>
+          </div>
+          <div class="panel strategy-card">
+            <span class="tag flip">Partner Entry</span>
+            <h3>הצטרפות כשותפים</h3>
+            <p>המשקיעים מצטרפים לפרויקט כשותפים במבנה סדור, עם הגדרות ברורות של תפקידים וחלוקות.</p>
+            <ul>
+              <li>שותפות בפרויקט ממוקד.</li>
+              <li>חיבור ישיר לאסטרטגיית היציאה.</li>
+              <li>בהירות ביחס למסלול ההשקעה.</li>
+            </ul>
+          </div>
+          <div class="panel strategy-card">
+            <span class="tag rent">Execution Logic</span>
+            <h3>ניהול והתקדמות לפי תזה</h3>
+            <p>לכל פרויקט תכנית פעולה הכוללת רכישה, השבחה, בנייה, השכרה או מכירה — בהתאם למסלול.</p>
+            <ul>
+              <li>השבחה לפני מימוש.</li>
+              <li>ניהול הכנסה בעסקאות שכירות.</li>
+              <li>התאמה בין סוג הנכס לאסטרטגיה.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="strategies">
+      <div class="container">
+        <div class="section-head">
+          <div class="label">Investment strategies</div>
+          <h2>שתי אסטרטגיות השקעה. אותה משמעת. שני סוגי ערך.</h2>
+          <p>
+            OITT מחלקת את ההשקעות לשני מסלולים מרכזיים: האחד יזמי ומבוסס השבחה ומכירה, והשני תזרימי ומבוסס
+            שכירות ותשואה. כל אחד מהמסלולים מיועד לפרופיל משקיע שונה אך נשען על אותו עקרון: פרויקט מוגדר,
+            מבנה תאגידי ברור וניהול מוקפד.
+          </p>
+        </div>
+        <div class="returns-grid">
+          <div class="panel strategy-card">
+            <span class="tag flip">Flip Strategy</span>
+            <h3>רכישת קרקע, בנייה ומכירה</h3>
+            <p>
+              מסלול ממוקד השבחה: רכישת קרקע או הזדמנות יזמית, פיתוח/בנייה בהתאם לתכנית, ולאחר מכן מכירה של
+              היחידות או הנכס כולו במטרה לממש ערך יזמי.
+            </p>
+            <ul>
+              <li>מתאים למשקיעים שמבקשים upside יזמי.</li>
+              <li>נשען על תמחור כניסה נכון וניהול תהליך הביצוע.</li>
+              <li>ממוקד ביצירת ערך ומימוש בסיום הפרויקט.</li>
+            </ul>
+          </div>
+          <div class="panel strategy-card">
+            <span class="tag rent">Yield Strategy</span>
+            <h3>השקעת תשואה מבוססת שכירות</h3>
+            <p>
+              מסלול המתמקד בנכסים המיועדים להשכרה, עם מטרה לייצר הכנסה שוטפת לצד פוטנציאל עליית ערך ארוך טווח.
+              מתאים למשקיעים המחפשים יציבות תזרימית יחסית לצד אחזקה בנדל״ן איכותי.
+            </p>
+            <ul>
+              <li>דגש על מיקום, ביקוש וניהול נכס.</li>
+              <li>שילוב בין תזרים לבין פוטנציאל הון.</li>
+              <li>מתאים לשותפים המבקשים חשיפה יציבה יותר.</li>
+            </ul>
+          </div>
+          <div class="panel strategy-card">
+            <span class="tag spc">Curated Selection</span>
+            <h3>סלקטיביות לפני צמיחה</h3>
+            <p>
+              לא כל עסקה מתאימה לקרן. OITT מעדיפה לבחור בפרויקטים שניתן להסביר בפשטות: למה עכשיו, למה בלרנקה,
+              מהו מסלול ההשבחה או ההשכרה, ומהי נקודת היציאה האפשרית.
+            </p>
+            <ul>
+              <li>פחות עסקאות, יותר בהירות.</li>
+              <li>עדיפות לנכסים עם סיפור השקעה ברור.</li>
+              <li>מותאם לפלטפורמה יוקרתית ואמינה.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="larnaca">
+      <div class="container">
+        <div class="section-head">
+          <div class="label">Why Larnaca</div>
+          <h2>לרנקה מציעה שילוב מבוקש של ים, תנועה בינלאומית, איכות חיים ופוטנציאל נדל״ני.</h2>
+          <p>
+            השילוב בין ביקוש למגורים, עניין של משקיעים זרים, קרבה לחוף, חוויית חיים ים-תיכונית ופיתוח מואץ,
+            הופך את לרנקה לאזור מעניין במיוחד עבור השקעות יזמיות והשקעות תשואה. עבור OITT זהו שוק שניתן לבנות בו
+            סיפור השקעה אלגנטי, ברור וגלובלי.
+          </p>
+        </div>
+        <div class="metrics">
+          <div class="metric"><strong>Sea & City</strong><span>עיר חוף עם חוויית מגורים מושכת</span></div>
+          <div class="metric"><strong>International</strong><span>פונה לקהל מקומי ובינלאומי</span></div>
+          <div class="metric"><strong>Residential</strong><span>מתאימה גם למכירה וגם להשכרה</span></div>
+          <div class="metric"><strong>Selective</strong><span>שוק שמאפשר בחירה חכמה בנכסים</span></div>
+        </div>
+        <div class="yield-band">
+          <strong>7%–10%</strong>
+          <p>
+            טווח תשואה שנתי אינדיקטיבי בעסקאות השכרה בלרנקה, בהתאם לסוג הנכס, מיקום, רמת גמר,
+            תפוסה, ניהול, עונתיות ופרמטרים מסחריים נוספים. הנתון מוצג כהמחשה שיווקית כללית ואינו מהווה התחייבות לתשואה.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container contact-grid">
+        <div class="panel contact-card">
+          <div class="section-head">
+            <div class="label">Investor contact</div>
+            <h2>בואו נדבר על הפרויקט הבא.</h2>
+            <p>
+              אם אתם מחפשים להיכנס כשותפים להזדמנויות נדל״ן בלרנקה, השאירו פרטים ונחזור אליכם עם מסלול ההשקעה,
+              סוג הפרויקט והמבנה המתאים.
+            </p>
+          </div>
+          <a class="mailbox" href="mailto:avi@oitt.co.il">avi@oitt.co.il</a>
+          <p class="form-note" style="margin-top:14px">
+            בלחיצה על שליחת הטופס ייפתח מייל מוכן לכתובת החברה. לצורך שליחה אוטומטית מלאה דרך האתר עצמו,
+            יש לחבר את הטופס לשירות כגון Formspree, Web3Forms או שרת מייל ייעודי.
+          </p>
+        </div>
+        <div class="panel">
+          <form action="mailto:avi@oitt.co.il" method="post" enctype="text/plain">
+            <div class="field">
+              <label for="name">שם מלא</label>
+              <input id="name" name="שם מלא" type="text" placeholder="הקלידו שם מלא" required />
+            </div>
+            <div class="field">
+              <label for="email">אימייל</label>
+              <input id="email" name="אימייל" type="email" placeholder="name@example.com" required />
+            </div>
+            <div class="field">
+              <label for="phone">טלפון</label>
+              <input id="phone" name="טלפון" type="tel" placeholder="050-0000000" />
+            </div>
+            <div class="field">
+              <label for="track">מסלול השקעה מעניין</label>
+              <select id="track" name="מסלול מעניין">
+                <option>פליפ יזמי</option>
+                <option>השקעת תשואה משכירות</option>
+                <option>שני המסלולים</option>
+                <option>עדיין בוחן אפשרויות</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="message">פרטים נוספים</label>
+              <textarea id="message" name="הודעה" placeholder="ספרו בקצרה על סוג ההשקעה שמעניין אתכם"></textarea>
+            </div>
+            <button class="cta primary" type="submit" style="border:0; width:100%; cursor:pointer">שליחת פנייה</button>
+            <div class="form-note">הטופס מוגדר לפתיחה של הודעת מייל ל־avi@oitt.co.il מתוך תוכנת הדואר של המשתמש.</div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-box">
+      <div class="footer-brand">
+        <img alt="OITT logo" src="data:image/png;base64,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" />
+        <div>
+          <strong>OITT</strong>
+          <div class="footer-meta">Luxury Real Estate Investment Platform | Larnaca, Cyprus</div>
+        </div>
+      </div>
+      <div class="footer-meta">האתר נבנה כעמוד תדמית יוקרתי לדף אחד, עם התאמה מלאה להצגת הקרן, מבנה SPV, מסלולי השקעה ויצירת קשר למשקיעים.</div>
+    </div>
+  </footer>
+</body>
+</html>
