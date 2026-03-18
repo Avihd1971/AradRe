@@ -37,13 +37,11 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
-          # Resolve account ID from the token
           ACCOUNT_ID=$(curl -sf -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
             "https://api.cloudflare.com/client/v4/accounts" \
             | python3 -c "import sys,json; print(json.load(sys.stdin)['result'][0]['id'])")
           echo "Account: $ACCOUNT_ID"
 
-          # Look for existing database named aradre-db
           DB_ID=$(curl -sf -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
             "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database?name=aradre-db" \
             | python3 -c "
@@ -65,12 +63,17 @@ jobs:
             echo "Found existing: $DB_ID"
           fi
 
-          # Patch the placeholder in wrangler.jsonc with the real ID
           sed -i "s/00000000-0000-0000-0000-000000000000/$DB_ID/g" wrangler.jsonc
           echo "Patched wrangler.jsonc with database_id=$DB_ID"
 
-          # Apply schema (|| true so re-runs don't fail on existing tables)
           npx wrangler d1 execute aradre-db --file=prisma/d1-schema.sql --remote || true
+
+      - name: Set Worker runtime secrets
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          echo "${{ secrets.NEXTAUTH_SECRET }}" | npx wrangler secret put NEXTAUTH_SECRET --config wrangler.jsonc
 
       - name: Deploy to Cloudflare Workers
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'

@@ -11,8 +11,12 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
-  // Replace database_id with your actual D1 ID after running:
-  // npx wrangler d1 create aradre-db
+  // Non-sensitive runtime vars — update NEXTAUTH_URL if your domain changes
+  "vars": {
+    "NEXTAUTH_URL": "https://aradre.workers.dev"
+  },
+  // NEXTAUTH_SECRET is set as an encrypted secret via the deploy workflow
+  // (wrangler secret put NEXTAUTH_SECRET)
   "d1_databases": [
     {
       "binding": "DB",
