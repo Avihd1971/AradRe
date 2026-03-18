@@ -29,8 +29,8 @@ jobs:
         run: npm run build:cf
         env:
           DATABASE_URL: file:./dev.db
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET || 'build-time-placeholder' }}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL || 'https://aradre.workers.dev' }}
 
       - name: Deploy to Cloudflare Workers
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
