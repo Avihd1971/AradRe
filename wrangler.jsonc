@@ -1,14 +1,23 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "aradre",
+  "main": ".open-next/worker.js",
   "compatibility_date": "2025-09-27",
+  "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
   },
-  "compatibility_flags": [
-    "nodejs_compat"
+  // Replace database_id with your actual D1 ID after running:
+  // npx wrangler d1 create aradre-db
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "aradre-db",
+      "database_id": "00000000-0000-0000-0000-000000000000"
+    }
   ]
 }

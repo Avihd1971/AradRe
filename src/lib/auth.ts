@@ -1,7 +1,18 @@
 import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
-import { prisma } from "@/lib/prisma"
+import { getDB } from "@/lib/prisma"
+
+async function getClient() {
+  try {
+    const { getCloudflareContext } = await import("@opennextjs/cloudflare")
+    const { env } = await getCloudflareContext({ async: true })
+    if (env.DB) return getDB(env.DB as D1Database)
+  } catch {
+    // local dev
+  }
+  return getDB()
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -13,7 +24,8 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
-        const user = await prisma.user.findUnique({
+        const client = await getClient()
+        const user = await client.user.findUnique({
           where: { email: credentials.email },
         })
         if (!user) return null

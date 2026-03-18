@@ -4,6 +4,8 @@ import { notFound } from "next/navigation"
 import { getPropertyById } from "@/lib/actions/property.actions"
 import { formatPrice, formatArea, parseImages, CATEGORY_LABELS, TYPE_LABELS } from "@/lib/utils"
 
+export const dynamic = "force-dynamic"
+
 interface Props {
   params: { id: string }
 }

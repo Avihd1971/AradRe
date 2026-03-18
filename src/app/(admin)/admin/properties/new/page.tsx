@@ -1,6 +1,8 @@
 import Link from "next/link"
 import PropertyForm from "@/components/admin/PropertyForm"
 
+export const dynamic = "force-dynamic"
+
 export default function NewPropertyPage() {
   return (
     <div className="p-8 max-w-3xl">

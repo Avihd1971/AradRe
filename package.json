@@ -6,10 +6,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:cf": "next build && npx @opennextjs/cloudflare build --dangerouslyUseUnsupportedNextVersion",
     "start": "next start",
+    "deploy": "npm run build:cf && wrangler deploy",
     "db:push": "prisma db push",
     "db:seed": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed.ts",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "d1:create": "wrangler d1 create aradre-db",
+    "d1:migrate": "wrangler d1 execute aradre-db --file=prisma/d1-schema.sql",
+    "d1:migrate:local": "wrangler d1 execute aradre-db --file=prisma/d1-schema.sql --local"
   },
   "repository": {
     "type": "git",
@@ -23,6 +28,7 @@
   },
   "homepage": "https://github.com/Avihd1971/AradRe#readme",
   "dependencies": {
+    "@prisma/adapter-d1": "^5.22.0",
     "@prisma/client": "5.22.0",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.3.1",
@@ -32,6 +38,8 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260317.1",
+    "@opennextjs/cloudflare": "^1.17.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
@@ -41,6 +49,7 @@
     "prisma": "5.22.0",
     "tailwindcss": "^3.4.19",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "wrangler": "^4.75.0"
   }
 }

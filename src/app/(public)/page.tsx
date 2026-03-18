@@ -3,6 +3,8 @@ import HeroSection from "@/components/public/HeroSection"
 import PropertyGrid from "@/components/public/PropertyGrid"
 import { getFeaturedProperties } from "@/lib/actions/property.actions"
 
+export const dynamic = "force-dynamic"
+
 export default async function HomePage() {
   const featured = await getFeaturedProperties()
 

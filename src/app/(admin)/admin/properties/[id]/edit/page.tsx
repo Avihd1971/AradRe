@@ -3,6 +3,8 @@ import { notFound } from "next/navigation"
 import PropertyForm from "@/components/admin/PropertyForm"
 import { getPropertyById } from "@/lib/actions/property.actions"
 
+export const dynamic = "force-dynamic"
+
 interface Props {
   params: { id: string }
 }

@@ -2,6 +2,8 @@ import Link from "next/link"
 import PropertyTable from "@/components/admin/PropertyTable"
 import { getProperties } from "@/lib/actions/property.actions"
 
+export const dynamic = "force-dynamic"
+
 export default async function AdminDashboard() {
   const properties = await getProperties()
 

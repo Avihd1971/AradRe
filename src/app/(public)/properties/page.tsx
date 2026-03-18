@@ -4,6 +4,8 @@ import FilterPanel from "@/components/public/FilterPanel"
 import { getActiveProperties } from "@/lib/actions/property.actions"
 import type { FilterParams } from "@/types"
 
+export const dynamic = "force-dynamic"
+
 interface Props {
   searchParams: {
     search?: string
