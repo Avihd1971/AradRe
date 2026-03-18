@@ -7,10 +7,17 @@
   "observability": {
     "enabled": true
   },
+
+  // Cloudflare Workers Builds — runs automatically on every GitHub push
+  "build": {
+    "command": "npm ci && npm run build:cf"
+  },
+
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+
   // Replace database_id with your actual D1 ID after running:
   // npx wrangler d1 create aradre-db
   "d1_databases": [
