@@ -4,3 +4,15 @@
 !.dev.vars.example
 .env*
 !.env.example
+
+# dependencies
+node_modules/
+
+# Next.js
+.next/
+
+# Database
+*.db
+
+# Prisma generated
+/generated/prisma

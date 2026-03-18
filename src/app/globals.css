@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand: #1a56db;
+  --brand-dark: #1e429f;
+}
+
+html {
+  scroll-behavior: smooth;
+}
