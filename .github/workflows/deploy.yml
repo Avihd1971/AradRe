@@ -32,6 +32,34 @@ jobs:
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET || 'build-time-placeholder' }}
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL || 'https://aradre.workers.dev' }}
 
+      - name: Create D1 database (if needed) and update wrangler.jsonc
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          # Try to create the D1 database; if it exists, the command exits non-zero
+          # but we can still fetch its ID via list
+          DB_ID=$(npx wrangler d1 list --json 2>/dev/null \
+            | python3 -c "import sys,json; dbs=json.load(sys.stdin); \
+              match=[d['uuid'] for d in dbs if d['name']=='aradre-db']; \
+              print(match[0] if match else '')" 2>/dev/null || true)
+
+          if [ -z "$DB_ID" ]; then
+            echo "Creating D1 database aradre-db..."
+            DB_ID=$(npx wrangler d1 create aradre-db --json \
+              | python3 -c "import sys,json; print(json.load(sys.stdin)['uuid'])")
+            echo "Created database with ID: $DB_ID"
+          else
+            echo "Found existing database ID: $DB_ID"
+          fi
+
+          # Patch the placeholder in wrangler.jsonc
+          sed -i "s/00000000-0000-0000-0000-000000000000/$DB_ID/g" wrangler.jsonc
+          echo "Updated wrangler.jsonc with database_id: $DB_ID"
+
+          # Apply schema to D1
+          npx wrangler d1 execute aradre-db --file=prisma/d1-schema.sql --remote || true
+
       - name: Deploy to Cloudflare Workers
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: cloudflare/wrangler-action@v3
