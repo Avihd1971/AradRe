@@ -1,6 +1,7 @@
-// Static imports — bundled into the Worker at build time
+// In a regular build this is @prisma/client.
+// When TARGET_PLATFORM=cloudflare the webpack alias in next.config.js
+// silently swaps it for @prisma/client/edge — no native engine, no eval().
 import { PrismaClient } from "@prisma/client"
-import { PrismaClient as PrismaClientEdge } from "@prisma/client/edge"
 import { PrismaD1 } from "@prisma/adapter-d1"
 
 declare global {
@@ -9,17 +10,17 @@ declare global {
 }
 
 /**
- * Returns a Prisma client appropriate for the current environment.
+ * Returns a Prisma client for the current environment.
  *
- * - Cloudflare Workers (d1 binding provided): uses PrismaClientEdge + PrismaD1 adapter.
- *   The edge client has no native engine / no eval() so it works in the Workers sandbox.
- * - Node.js / local dev (no binding): uses the regular client with the SQLite file.
+ * - Cloudflare Workers (d1 binding provided):
+ *     @prisma/client/edge + PrismaD1 adapter — pure-JS, no native binary.
+ * - Node.js / local dev (no binding):
+ *     @prisma/client singleton backed by the local SQLite file.
  */
 export function getDB(d1?: D1Database): PrismaClient {
   if (d1) {
     const adapter = new PrismaD1(d1)
-    // PrismaClientEdge is type-compatible at runtime; cast to satisfy shared typings
-    return new PrismaClientEdge({ adapter } as never) as unknown as PrismaClient
+    return new PrismaClient({ adapter } as never)
   }
   if (!globalThis.__prisma) {
     globalThis.__prisma = new PrismaClient()
@@ -27,6 +28,6 @@ export function getDB(d1?: D1Database): PrismaClient {
   return globalThis.__prisma
 }
 
-// Convenience singleton for local dev / seed scripts
+// Convenience singleton used by seed scripts (Node.js only)
 export const prisma: PrismaClient =
   globalThis.__prisma ?? (globalThis.__prisma = new PrismaClient())
