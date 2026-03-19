@@ -1,7 +1,7 @@
-// In a regular build this is @prisma/client.
-// When TARGET_PLATFORM=cloudflare the webpack alias in next.config.js
-// silently swaps it for @prisma/client/edge — no native engine, no eval().
-import { PrismaClient } from "@prisma/client"
+// Always import from @prisma/client/edge — uses runtime/edge.js (no eval("__dirname"),
+// no native binary). In local dev, next.config.js maps this back to @prisma/client
+// so SQLite works without a driver adapter.
+import { PrismaClient } from "@prisma/client/edge"
 import { PrismaD1 } from "@prisma/adapter-d1"
 
 declare global {

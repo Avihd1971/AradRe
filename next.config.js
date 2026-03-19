@@ -8,11 +8,11 @@ const nextConfig = {
   },
 
   webpack(config) {
-    // When building for Cloudflare Workers, replace @prisma/client with the
-    // edge-compatible version that has no native engine and no eval("__dirname").
-    // The regular client is kept for local development and seed scripts.
-    if (process.env.TARGET_PLATFORM === "cloudflare") {
-      config.resolve.alias["@prisma/client"] = require.resolve("@prisma/client/edge")
+    // The app imports @prisma/client/edge everywhere (no eval("__dirname"),
+    // works in Cloudflare Workers). For local dev we swap it back to the full
+    // client so SQLite works without a driver adapter.
+    if (process.env.TARGET_PLATFORM !== "cloudflare") {
+      config.resolve.alias["@prisma/client/edge"] = require.resolve("@prisma/client")
     }
     return config
   },
