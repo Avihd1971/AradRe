@@ -16,6 +16,7 @@ declare global {
  *     @prisma/client/edge + PrismaD1 adapter — pure-JS, no native binary.
  * - Node.js / local dev (no binding):
  *     @prisma/client singleton backed by the local SQLite file.
+ *     (next.config.js aliases @prisma/client/edge → @prisma/client for local builds)
  */
 export function getDB(d1?: D1Database): PrismaClient {
   if (d1) {
@@ -27,7 +28,3 @@ export function getDB(d1?: D1Database): PrismaClient {
   }
   return globalThis.__prisma
 }
-
-// Convenience singleton used by seed scripts (Node.js only)
-export const prisma: PrismaClient =
-  globalThis.__prisma ?? (globalThis.__prisma = new PrismaClient())

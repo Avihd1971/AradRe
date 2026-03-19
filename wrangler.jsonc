@@ -13,7 +13,7 @@
   },
   // Non-sensitive runtime vars — update NEXTAUTH_URL if your domain changes
   "vars": {
-    "NEXTAUTH_URL": "https://aradre.workers.dev"
+    "NEXTAUTH_URL": "https://2op.co.il"
   },
   // NEXTAUTH_SECRET is set as an encrypted secret via the deploy workflow
   // (wrangler secret put NEXTAUTH_SECRET)
