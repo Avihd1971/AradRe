@@ -1,4 +1,7 @@
+// Static imports — bundled into the Worker at build time
 import { PrismaClient } from "@prisma/client"
+import { PrismaClient as PrismaClientEdge } from "@prisma/client/edge"
+import { PrismaD1 } from "@prisma/adapter-d1"
 
 declare global {
   // eslint-disable-next-line no-var
@@ -6,29 +9,24 @@ declare global {
 }
 
 /**
- * Returns a PrismaClient.
+ * Returns a Prisma client appropriate for the current environment.
  *
- * - Local development (Node.js): uses the standard SQLite client via DATABASE_URL.
- * - Cloudflare Workers: caller must pass a D1 binding; a new client is created
- *   per-request using @prisma/adapter-d1.
- *
- * Pass `d1` (the D1Database binding from getCloudflareContext().env.DB) when
- * running inside a Cloudflare Worker.  In all other environments omit it.
+ * - Cloudflare Workers (d1 binding provided): uses PrismaClientEdge + PrismaD1 adapter.
+ *   The edge client has no native engine / no eval() so it works in the Workers sandbox.
+ * - Node.js / local dev (no binding): uses the regular client with the SQLite file.
  */
-export async function getDB(d1?: D1Database): Promise<PrismaClient> {
+export function getDB(d1?: D1Database): PrismaClient {
   if (d1) {
-    const { PrismaD1 } = await import("@prisma/adapter-d1")
     const adapter = new PrismaD1(d1)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return new PrismaClient({ adapter } as any)
+    // PrismaClientEdge is type-compatible at runtime; cast to satisfy shared typings
+    return new PrismaClientEdge({ adapter } as never) as unknown as PrismaClient
   }
-  // Node.js / local dev: singleton
   if (!globalThis.__prisma) {
     globalThis.__prisma = new PrismaClient()
   }
   return globalThis.__prisma
 }
 
-// Convenience singleton for server actions that already know they're in Node env
+// Convenience singleton for local dev / seed scripts
 export const prisma: PrismaClient =
   globalThis.__prisma ?? (globalThis.__prisma = new PrismaClient())

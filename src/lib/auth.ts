@@ -1,15 +1,15 @@
 import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
+import { getCloudflareContext } from "@opennextjs/cloudflare"
 import { getDB } from "@/lib/prisma"
 
-async function getClient() {
+function getClient() {
   try {
-    const { getCloudflareContext } = await import("@opennextjs/cloudflare")
-    const { env } = await getCloudflareContext({ async: true })
+    const { env } = getCloudflareContext()
     if (env.DB) return getDB(env.DB as D1Database)
   } catch {
-    // local dev
+    // local dev — fall through to SQLite
   }
   return getDB()
 }
@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
-        const client = await getClient()
+        const client = getClient()
         const user = await client.user.findUnique({
           where: { email: credentials.email },
         })
