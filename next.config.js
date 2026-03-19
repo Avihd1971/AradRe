@@ -7,15 +7,14 @@ const nextConfig = {
     ],
   },
 
-  webpack(config) {
-    // The app imports @prisma/client/edge everywhere (no eval("__dirname"),
-    // works in Cloudflare Workers). For local dev we swap it back to the full
-    // client so SQLite works without a driver adapter.
-    if (process.env.TARGET_PLATFORM !== "cloudflare") {
-      config.resolve.alias["@prisma/client/edge"] = require.resolve("@prisma/client")
-    }
-    return config
-  },
+  // Tell webpack NOT to bundle @prisma/client into route chunks.
+  // This lets @opennextjs/cloudflare's esbuild step (which uses the
+  // "workerd" package condition) resolve @prisma/client to the WASM
+  // build (wasm.js / runtime/wasm.js) that works with driver adapters
+  // and has no eval("__dirname"). In local dev, the regular Node.js
+  // @prisma/client is used at runtime (webpack just leaves the require()
+  // for Node to resolve normally).
+  serverExternalPackages: ["@prisma/client", ".prisma/client"],
 }
 
 module.exports = nextConfig

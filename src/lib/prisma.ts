@@ -1,7 +1,4 @@
-// Always import from @prisma/client/edge — uses runtime/edge.js (no eval("__dirname"),
-// no native binary). In local dev, next.config.js maps this back to @prisma/client
-// so SQLite works without a driver adapter.
-import { PrismaClient } from "@prisma/client/edge"
+import { PrismaClient } from "@prisma/client"
 import { PrismaD1 } from "@prisma/adapter-d1"
 
 declare global {
@@ -13,10 +10,11 @@ declare global {
  * Returns a Prisma client for the current environment.
  *
  * - Cloudflare Workers (d1 binding provided):
- *     @prisma/client/edge + PrismaD1 adapter — pure-JS, no native binary.
+ *     PrismaD1 adapter — @opennextjs/cloudflare's esbuild resolves
+ *     @prisma/client via the "workerd" package condition to wasm.js
+ *     (runtime/wasm.js + WASM query engine, no eval("__dirname")).
  * - Node.js / local dev (no binding):
- *     @prisma/client singleton backed by the local SQLite file.
- *     (next.config.js aliases @prisma/client/edge → @prisma/client for local builds)
+ *     Singleton backed by the local SQLite file.
  */
 export function getDB(d1?: D1Database): PrismaClient {
   if (d1) {
