@@ -68,6 +68,13 @@ jobs:
 
           npx wrangler d1 execute aradre-db --file=prisma/d1-schema.sql --remote || true
 
+      - name: Provision R2 bucket for images
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          npx wrangler r2 bucket create aradre-images 2>/dev/null || echo "R2 bucket already exists"
+
       - name: Set Worker runtime secrets
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         env:
