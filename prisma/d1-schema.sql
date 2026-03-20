@@ -26,3 +26,13 @@ CREATE TABLE IF NOT EXISTS "User" (
   "name"      TEXT,
   "createdAt" TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+-- Default admin user (admin@aradre.com / admin123)
+INSERT OR IGNORE INTO "User" ("id", "email", "password", "name", "createdAt")
+VALUES (
+  'admin-001',
+  'admin@aradre.com',
+  '$2b$12$Pddaz74Bd8u53Lz6A9ki2OykIRjqf1pQk1awottegIXL1SzrZuy5O',
+  'Admin',
+  datetime('now')
+);
